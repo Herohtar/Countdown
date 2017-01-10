@@ -24,6 +24,8 @@ namespace Countdown
     {
         private string timeLeft;
         private DateTime target = new DateTime(2017, 4, 8, 14, 4, 0);
+        private HwndSource _source;
+        private const int HOTKEY_ID = 9000;
 
         public MainWindow()
         {
@@ -36,8 +38,20 @@ namespace Countdown
         protected override void OnSourceInitialized(EventArgs e)
         {
             base.OnSourceInitialized(e);
-            var hwnd = new WindowInteropHelper(this).Handle;
+            var helper = new WindowInteropHelper(this);
+            var hwnd = helper.Handle;
             WindowsServices.SetWindowExTransparent(hwnd);
+            this._source = HwndSource.FromHwnd(hwnd);
+            this._source.AddHook(hwndHook);
+            registerHotKey();
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            this._source.RemoveHook(hwndHook);
+            this._source = null;
+            unregisterHotKey();
+            base.OnClosed(e);
         }
 
         public string TimeLeft
@@ -51,6 +65,44 @@ namespace Countdown
                     RaisePropertyChangedEvent("TimeLeft");
                 }
             }
+        }
+
+        private IntPtr hwndHook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        {
+            const int WM_HOTKEY = 0x0312;
+            switch (msg)
+            {
+                case WM_HOTKEY:
+                    switch (wParam.ToInt32())
+                    {
+                        case HOTKEY_ID:
+                            onHotKeyPressed();
+                            handled = true;
+                            break;
+                    }
+                    break;
+            }
+            return IntPtr.Zero;
+        }
+
+        private void registerHotKey()
+        {
+            var helper = new WindowInteropHelper(this);
+            if (!WindowsServices.RegisterHotKey(helper.Handle, HOTKEY_ID, WindowsServices.MOD_CTRL | WindowsServices.MOD_WIN | WindowsServices.MOD_ALT, (uint)WindowsServices.Keys.J))
+            {
+                // handle error
+            }
+        }
+
+        private void unregisterHotKey()
+        {
+            var helper = new WindowInteropHelper(this);
+            WindowsServices.UnregisterHotKey(helper.Handle, HOTKEY_ID);
+        }
+
+        private void onHotKeyPressed()
+        {
+            Application.Current.Shutdown();
         }
 
         private void updateCountdown()
