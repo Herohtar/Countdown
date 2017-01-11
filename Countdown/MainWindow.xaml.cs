@@ -23,9 +23,10 @@ namespace Countdown
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         private string timeLeft;
-        private DateTime target = new DateTime(2017, 4, 8, 14, 4, 0);
+        private DateTime target = new DateTime(2017, 4, 8, 16, 32, 0);
         private HwndSource _source;
         private const int HOTKEY_ID = 9000;
+        private ControlWindow controlWindow;
 
         public MainWindow()
         {
@@ -102,7 +103,13 @@ namespace Countdown
 
         private void onHotKeyPressed()
         {
-            Application.Current.Shutdown();
+            if (this.controlWindow == null)
+            {
+                this.controlWindow = new ControlWindow();
+            }
+            
+            this.controlWindow.Show();
+            this.controlWindow.Activate();
         }
 
         private void updateCountdown()
@@ -120,6 +127,12 @@ namespace Countdown
             {
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
+        }
+
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            this.Left = (SystemParameters.PrimaryScreenWidth / 2) - (e.NewSize.Width / 2);
+            this.Top = 0;
         }
     }
 }

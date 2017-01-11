@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Countdown"
         mc:Ignorable="d"
-        Title="Countdown" Height="350" Width="525" AllowsTransparency="True" WindowStyle="None" Background="#00FFFFFF" ShowInTaskbar="False" WindowState="Maximized" Topmost="True">
+        Title="Countdown" Height="350" Width="525" AllowsTransparency="True" WindowStyle="None" Background="#00FFFFFF" ShowInTaskbar="False" Topmost="True" SizeToContent="WidthAndHeight" SizeChanged="Window_SizeChanged" Top="0">
     <Grid>
-        <TextBlock Margin="25" Text="{Binding TimeLeft}" Foreground="#FFFFFFFF" FontWeight="Bold" FontSize="24" VerticalAlignment="Top" HorizontalAlignment="Center">
+        <TextBlock Text="{Binding TimeLeft}" Foreground="#FFFFFFFF" FontWeight="Bold" FontSize="24">
             <TextBlock.Effect>
                 <DropShadowEffect BlurRadius="4" ShadowDepth="4" Color="Black" Opacity="1" />
             </TextBlock.Effect>
