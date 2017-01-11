@@ -115,7 +115,40 @@ namespace Countdown
         private void updateCountdown()
         {
             TimeSpan difference = target - DateTime.Now;
-            this.TimeLeft = String.Format("{0} days, {1:D2} hours, {2:D2} minutes, {3:D2} seconds, {4:D3} milliseconds", difference.Days, difference.Hours, difference.Minutes, difference.Seconds, difference.Milliseconds);
+            string timeString = "";
+
+            if (difference.Days > 0)
+            {
+                timeString += formatUnits(difference.Days, "day") + ", ";
+            }
+            if ((difference.Hours > 0) || !String.IsNullOrWhiteSpace(timeString))
+            {
+                timeString += formatUnits(difference.Hours, "hour") + ", ";
+            }
+            if ((difference.Minutes > 0) || !String.IsNullOrWhiteSpace(timeString))
+            {
+                timeString += formatUnits(difference.Minutes, "minute") + ", ";
+            }
+            if ((difference.Seconds > 0) || !String.IsNullOrWhiteSpace(timeString))
+            {
+                timeString += formatUnits(difference.Seconds, "second") + ", ";
+            }
+            if ((difference.Milliseconds > 0) || !String.IsNullOrWhiteSpace(timeString))
+            {
+                timeString += formatUnits(difference.Milliseconds, "millisecond");
+            }
+
+            this.TimeLeft = timeString;
+        }
+
+        private string formatUnits(int count, string units)
+        {
+            if (units == "millisecond")
+            {
+                return String.Format("{0:D3} {1}{2}", count, units, (count == 1) ? "" : "s");
+            }
+
+            return String.Format("{0:D2} {1}{2}", count, units, (count == 1) ? "" : "s");
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
