@@ -7,9 +7,9 @@
         mc:Ignorable="d"
         Title="Countdown" Height="350" Width="525" AllowsTransparency="True" WindowStyle="None" Background="#00FFFFFF" ShowInTaskbar="False" Topmost="True" SizeToContent="WidthAndHeight" SizeChanged="Window_SizeChanged" Top="0">
     <Grid>
-        <TextBlock Text="{Binding TimeLeft}" Foreground="#FFFFFFFF" FontWeight="Bold" FontSize="24">
+        <TextBlock Margin="5 0 5 5" Text="{Binding TimeLeft}" Foreground="{Binding TextColorBrush}" FontWeight="Bold" FontSize="24">
             <TextBlock.Effect>
-                <DropShadowEffect BlurRadius="4" ShadowDepth="4" Color="Black" Opacity="1" />
+                <DropShadowEffect BlurRadius="4" ShadowDepth="4" Color="{Binding ShadowColor}" Opacity="1" />
             </TextBlock.Effect>
         </TextBlock>
     </Grid>

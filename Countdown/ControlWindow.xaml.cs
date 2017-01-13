@@ -19,17 +19,19 @@ namespace Countdown
     /// </summary>
     public partial class ControlWindow : Window
     {
-        public ControlWindow()
+        public ControlWindow(MainWindow parent)
         {
             InitializeComponent();
+
+            this.DataContext = parent;
         }
 
-        private void closeButton_Click(object sender, RoutedEventArgs e)
+        private void okButton_Click(object sender, RoutedEventArgs e)
         {
             this.Hide();
         }
 
-        private void shutdownButton_Click(object sender, RoutedEventArgs e)
+        private void exitButton_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
         }

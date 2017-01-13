@@ -23,7 +23,10 @@ namespace Countdown
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         private string timeLeft;
-        private DateTime target = new DateTime(2017, 4, 8, 16, 32, 0);
+        private DateTime targetDate;
+        private Brush textColorBrush;
+        private Color textColor;
+        private Color shadowColor;
         private HwndSource _source;
         private const int HOTKEY_ID = 9000;
         private ControlWindow controlWindow;
@@ -32,6 +35,10 @@ namespace Countdown
         {
             InitializeComponent();
             this.DataContext = this;
+
+            this.TargetDate = Properties.Settings.Default.TargetDate;
+            this.TextColor = Properties.Settings.Default.TextColor;
+            this.ShadowColor = Properties.Settings.Default.ShadowColor;
 
             PeriodicTask.Run(updateCountdown, TimeSpan.FromMilliseconds(1));
         }
@@ -53,6 +60,65 @@ namespace Countdown
             this._source = null;
             unregisterHotKey();
             base.OnClosed(e);
+        }
+
+        public DateTime TargetDate
+        {
+            get { return this.targetDate; }
+            set
+            {
+                if (this.targetDate != value)
+                {
+                    this.targetDate = value;
+                    Properties.Settings.Default.TargetDate = value;
+                    Properties.Settings.Default.Save();
+                    RaisePropertyChangedEvent("TargetDate");
+                }
+            }
+        }
+
+        public Brush TextColorBrush
+        {
+            get { return this.textColorBrush; }
+            set
+            {
+                if (this.textColorBrush != value)
+                {
+                    this.textColorBrush = value;
+                    RaisePropertyChangedEvent("TextColorBrush");
+                }
+            }
+        }
+
+        public Color TextColor
+        {
+            get { return this.textColor; }
+            set
+            {
+                if (this.textColor != value)
+                {
+                    this.textColor = value;
+                    this.TextColorBrush = new SolidColorBrush(value);
+                    Properties.Settings.Default.TextColor = value;
+                    Properties.Settings.Default.Save();
+                    RaisePropertyChangedEvent("TextColor");
+                }
+            }
+        }
+
+        public Color ShadowColor
+        {
+            get { return this.shadowColor; }
+            set
+            {
+                if (this.shadowColor != value)
+                {
+                    this.shadowColor = value;
+                    Properties.Settings.Default.ShadowColor = value;
+                    Properties.Settings.Default.Save();
+                    RaisePropertyChangedEvent("ShadowColor");
+                }
+            }
         }
 
         public string TimeLeft
@@ -105,7 +171,7 @@ namespace Countdown
         {
             if (this.controlWindow == null)
             {
-                this.controlWindow = new ControlWindow();
+                this.controlWindow = new ControlWindow(this);
             }
             
             this.controlWindow.Show();
@@ -114,7 +180,7 @@ namespace Countdown
 
         private void updateCountdown()
         {
-            TimeSpan difference = target - DateTime.Now;
+            TimeSpan difference = this.targetDate - DateTime.Now;
             string timeString = "";
 
             if (difference.Days > 0)
@@ -145,10 +211,10 @@ namespace Countdown
         {
             if (units == "millisecond")
             {
-                return String.Format("{0:D3} {1}{2}", count, units, (count == 1) ? "" : "s");
+                return String.Format("{0:D3} {1}{2}", count, units, (count == -1) ? "" : "s");
             }
 
-            return String.Format("{0:D2} {1}{2}", count, units, (count == 1) ? "" : "s");
+            return String.Format("{0} {1}{2}", count, units, (count == 1) ? "" : "s");
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
