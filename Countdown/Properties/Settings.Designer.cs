@@ -70,5 +70,17 @@ namespace Countdown.Properties {
                 this["MinimumLevel"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("It\'s time!")]
+        public string CompletionText {
+            get {
+                return ((string)(this["CompletionText"]));
+            }
+            set {
+                this["CompletionText"] = value;
+            }
+        }
     }
 }

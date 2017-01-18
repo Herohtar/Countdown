@@ -29,6 +29,7 @@ namespace Countdown
         private Color shadowColor;
         private int minimumLevel;
         private Units minimumUnits;
+        private string completionText;
         private HwndSource _source;
         private const int HOTKEY_ID = 9000;
         private ControlWindow controlWindow;
@@ -51,6 +52,7 @@ namespace Countdown
             this.TextColor = Properties.Settings.Default.TextColor;
             this.ShadowColor = Properties.Settings.Default.ShadowColor;
             this.MinimumLevel = Properties.Settings.Default.MinimumLevel;
+            this.CompletionText = Properties.Settings.Default.CompletionText;
 
             PeriodicTask.Run(updateCountdown, TimeSpan.FromMilliseconds(1));
         }
@@ -72,6 +74,21 @@ namespace Countdown
             this._source = null;
             unregisterHotKey();
             base.OnClosed(e);
+        }
+
+        public string CompletionText
+        {
+            get { return this.completionText; }
+            set
+            {
+                if (this.completionText != value)
+                {
+                    this.completionText = value;
+                    Properties.Settings.Default.CompletionText = value;
+                    Properties.Settings.Default.Save();
+                    RaisePropertyChangedEvent("CompletionText");
+                }
+            }
         }
 
         public int MinimumLevel
@@ -245,7 +262,7 @@ namespace Countdown
                 timeStrings.Add(formatUnits(difference.Milliseconds, "millisecond"));
             }
 
-            this.TimeLeft = String.Join(", ", timeStrings);
+            this.TimeLeft = (timeStrings.Count > 0) ? String.Join(", ", timeStrings) : this.CompletionText;
         }
         
         private string formatUnits(int count, string units)
