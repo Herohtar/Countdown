@@ -222,32 +222,32 @@ namespace Countdown
         private void updateCountdown()
         {
             TimeSpan difference = this.targetDate - DateTime.Now;
-            string timeString = "";
+            List<string> timeStrings = new List<string>();
 
             if (difference.Days > 0)
             {
-                timeString += formatUnits(difference.Days, "day") + ", ";
+                timeStrings.Add(formatUnits(difference.Days, "day"));
             }
-            if (((this.MinimumUnits <= Units.Hours) || String.IsNullOrWhiteSpace(timeString)) && ((difference.Hours > 0)  || !String.IsNullOrWhiteSpace(timeString)))
+            if (((this.MinimumUnits <= Units.Hours) || (timeStrings.Count == 0)) && ((difference.Hours > 0) || (timeStrings.Count > 0)))
             {
-                timeString += formatUnits(difference.Hours, "hour") + ", ";
+                timeStrings.Add(formatUnits(difference.Hours, "hour"));
             }
-            if (((this.MinimumUnits <= Units.Minutes) || String.IsNullOrWhiteSpace(timeString)) && ((difference.Minutes > 0) || !String.IsNullOrWhiteSpace(timeString)))
+            if (((this.MinimumUnits <= Units.Minutes) || (timeStrings.Count == 0)) && ((difference.Minutes > 0) || (timeStrings.Count > 0)))
             {
-                timeString += formatUnits(difference.Minutes, "minute") + ", ";
+                timeStrings.Add(formatUnits(difference.Minutes, "minute"));
             }
-            if (((this.MinimumUnits <= Units.Seconds) || String.IsNullOrWhiteSpace(timeString)) && ((difference.Seconds > 0) || !String.IsNullOrWhiteSpace(timeString)))
+            if (((this.MinimumUnits <= Units.Seconds) || (timeStrings.Count == 0)) && ((difference.Seconds > 0) || (timeStrings.Count > 0)))
             {
-                timeString += formatUnits(difference.Seconds, "second") + ", ";
+                timeStrings.Add(formatUnits(difference.Seconds, "second"));
             }
-            if (((this.MinimumUnits <= Units.Milliseconds) || String.IsNullOrWhiteSpace(timeString)) && ((difference.Milliseconds > 0) || !String.IsNullOrWhiteSpace(timeString)))
+            if (((this.MinimumUnits <= Units.Milliseconds) || (timeStrings.Count == 0)) && ((difference.Milliseconds > 0) || (timeStrings.Count > 0)))
             {
-                timeString += formatUnits(difference.Milliseconds, "millisecond");
+                timeStrings.Add(formatUnits(difference.Milliseconds, "millisecond"));
             }
 
-            this.TimeLeft = timeString;
+            this.TimeLeft = String.Join(", ", timeStrings);
         }
-
+        
         private string formatUnits(int count, string units)
         {
             if (units == "millisecond")
