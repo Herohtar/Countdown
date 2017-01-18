@@ -27,9 +27,20 @@ namespace Countdown
         private Brush textColorBrush;
         private Color textColor;
         private Color shadowColor;
+        private int minimumLevel;
+        private Units minimumUnits;
         private HwndSource _source;
         private const int HOTKEY_ID = 9000;
         private ControlWindow controlWindow;
+
+        public enum Units
+        {
+            Milliseconds,
+            Seconds,
+            Minutes,
+            Hours,
+            Days
+        }
 
         public MainWindow()
         {
@@ -39,6 +50,7 @@ namespace Countdown
             this.TargetDate = Properties.Settings.Default.TargetDate;
             this.TextColor = Properties.Settings.Default.TextColor;
             this.ShadowColor = Properties.Settings.Default.ShadowColor;
+            this.MinimumLevel = Properties.Settings.Default.MinimumLevel;
 
             PeriodicTask.Run(updateCountdown, TimeSpan.FromMilliseconds(1));
         }
@@ -60,6 +72,35 @@ namespace Countdown
             this._source = null;
             unregisterHotKey();
             base.OnClosed(e);
+        }
+
+        public int MinimumLevel
+        {
+            get { return this.minimumLevel; }
+            set
+            {
+                if (this.minimumLevel != value)
+                {
+                    this.minimumLevel = value;
+                    this.MinimumUnits = (Units)value;
+                    Properties.Settings.Default.MinimumLevel = value;
+                    Properties.Settings.Default.Save();
+                    RaisePropertyChangedEvent("MinimumLevel");
+                }
+            }
+        }
+
+        public Units MinimumUnits
+        {
+            get { return this.minimumUnits; }
+            set
+            {
+                if (this.minimumUnits != value)
+                {
+                    this.minimumUnits = value;
+                    RaisePropertyChangedEvent("MinimumUnits");
+                }
+            }
         }
 
         public DateTime TargetDate
@@ -187,19 +228,19 @@ namespace Countdown
             {
                 timeString += formatUnits(difference.Days, "day") + ", ";
             }
-            if ((difference.Hours > 0) || !String.IsNullOrWhiteSpace(timeString))
+            if (((this.MinimumUnits <= Units.Hours) || String.IsNullOrWhiteSpace(timeString)) && ((difference.Hours > 0)  || !String.IsNullOrWhiteSpace(timeString)))
             {
                 timeString += formatUnits(difference.Hours, "hour") + ", ";
             }
-            if ((difference.Minutes > 0) || !String.IsNullOrWhiteSpace(timeString))
+            if (((this.MinimumUnits <= Units.Minutes) || String.IsNullOrWhiteSpace(timeString)) && ((difference.Minutes > 0) || !String.IsNullOrWhiteSpace(timeString)))
             {
                 timeString += formatUnits(difference.Minutes, "minute") + ", ";
             }
-            if ((difference.Seconds > 0) || !String.IsNullOrWhiteSpace(timeString))
+            if (((this.MinimumUnits <= Units.Seconds) || String.IsNullOrWhiteSpace(timeString)) && ((difference.Seconds > 0) || !String.IsNullOrWhiteSpace(timeString)))
             {
                 timeString += formatUnits(difference.Seconds, "second") + ", ";
             }
-            if ((difference.Milliseconds > 0) || !String.IsNullOrWhiteSpace(timeString))
+            if (((this.MinimumUnits <= Units.Milliseconds) || String.IsNullOrWhiteSpace(timeString)) && ((difference.Milliseconds > 0) || !String.IsNullOrWhiteSpace(timeString)))
             {
                 timeString += formatUnits(difference.Milliseconds, "millisecond");
             }

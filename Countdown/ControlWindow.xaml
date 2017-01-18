@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Countdown"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="Controls" Height="300" Width="350" ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow" Topmost="True">
+        Title="Controls" Height="300" Width="400" ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow" Topmost="True" Closing="Window_Closing">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
@@ -17,16 +17,19 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <TextBlock Text="Countdown target:" />
-        <xctk:DateTimePicker Grid.Column="1" Grid.ColumnSpan="2" Value="{Binding TargetDate}" />
-        <TextBlock Grid.Row="1" Text="Text color:" />
-        <xctk:ColorPicker Grid.Row="1" Grid.Column="1" SelectedColor="{Binding TextColor}" />
-        <TextBlock Grid.Row="2" Text="Shadow color:" />
-        <xctk:ColorPicker Grid.Row="2" Grid.Column="1" SelectedColor="{Binding ShadowColor}" />
-        <Button Grid.Row="4" Click="exitButton_Click" Margin="5">Exit Countdown</Button>
-        <Button Grid.Row="4" Grid.Column="2" Click="okButton_Click" Margin="5">OK</Button>
+        <TextBlock Margin="5" Text="Countdown target:" />
+        <xctk:DateTimePicker Margin="5" Grid.Column="1" Grid.ColumnSpan="2" Value="{Binding TargetDate}" />
+        <TextBlock Margin="5" Grid.Row="1" Text="Text color:" />
+        <xctk:ColorPicker Margin="5" Grid.Row="1" Grid.Column="1" SelectedColor="{Binding TextColor}" />
+        <TextBlock Margin="5" Grid.Row="2" Text="Shadow color:" />
+        <xctk:ColorPicker Margin="5" Grid.Row="2" Grid.Column="1" SelectedColor="{Binding ShadowColor}" />
+        <TextBlock Margin="5" Grid.Row="3" Text="Smallest unit:" />
+        <Slider Margin="5" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Minimum="0" Maximum="4" TickFrequency="1" TickPlacement="BottomRight" IsSnapToTickEnabled="True" Value="{Binding MinimumLevel}" />
+        <Button Grid.Row="5" Click="exitButton_Click" Margin="5">Exit Countdown</Button>
+        <Button Grid.Row="5" Grid.Column="2" Click="okButton_Click" Margin="5">OK</Button>
     </Grid>
 </Window>

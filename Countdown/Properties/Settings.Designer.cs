@@ -58,5 +58,17 @@ namespace Countdown.Properties {
                 this["ShadowColor"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int MinimumLevel {
+            get {
+                return ((int)(this["MinimumLevel"]));
+            }
+            set {
+                this["MinimumLevel"] = value;
+            }
+        }
     }
 }
