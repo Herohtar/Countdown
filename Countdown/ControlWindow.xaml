@@ -21,7 +21,7 @@
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <TextBlock Margin="5" Text="Countdown target:" />
+        <TextBlock Margin="5" Text="Target date:" />
         <xctk:DateTimePicker Margin="5" Grid.Column="1" Grid.ColumnSpan="2" Format="Custom" FormatString="MMMM d, yyyy HH:mm:ss" Value="{Binding TargetDate}" />
         <TextBlock Margin="5" Grid.Row="1" Text="Text color:" />
         <xctk:ColorPicker Margin="5" Grid.Row="1" Grid.Column="1" SelectedColor="{Binding TextColor}" />
