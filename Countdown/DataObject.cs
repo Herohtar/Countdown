@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,8 @@ namespace Countdown
         private string completionText;
         private int countdownFontSize;
         private FontFamily countdownFontFamily;
+        private int selectedMonitor;
+        private ObservableCollection<string> monitorList;
 
         public enum Units
         {
@@ -39,6 +42,40 @@ namespace Countdown
             this.CompletionText = Properties.Settings.Default.CompletionText;
             this.CountdownFontSize = Properties.Settings.Default.CountdownFontSize;
             this.CountdownFontFamily = Properties.Settings.Default.CountdownFontFamily;
+            this.MonitorList = new ObservableCollection<string>();
+            foreach (Monitor m in Monitor.AllMonitors)
+            {
+                this.MonitorList.Add(m.Name.TrimStart(new char[] { '\\', '.' }) + (m.IsPrimary ? " (Primary)" : ""));
+            }
+            this.SelectedMonitor = Properties.Settings.Default.SelectedMonitor;
+        }
+
+        public ObservableCollection<string> MonitorList
+        {
+            get { return this.monitorList; }
+            set
+            {
+                if (this.monitorList != value)
+                {
+                    this.monitorList = value;
+                    RaisePropertyChangedEvent("MonitorList");
+                }
+            }
+        }
+
+        public int SelectedMonitor
+        {
+            get { return this.selectedMonitor; }
+            set
+            {
+                if (this.selectedMonitor != value)
+                {
+                    this.selectedMonitor = value;
+                    Properties.Settings.Default.SelectedMonitor = value;
+                    Properties.Settings.Default.Save();
+                    RaisePropertyChangedEvent("SelectedMonitor");
+                }
+            }
         }
 
         public FontFamily CountdownFontFamily
