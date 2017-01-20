@@ -11,6 +11,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -100,10 +101,24 @@ namespace Countdown
             this.controlWindow.Activate();
         }
 
+        private void updateWindowPosition(double width)
+        {
+            Monitor m = Monitor.AllMonitors.ElementAt(this.dataObject.SelectedMonitor);
+            this.Top = m.Bounds.Top;
+
+            var move = new DoubleAnimation(this.Left, m.Bounds.Left + ((m.Bounds.Width / 2) - (width / 2)), TimeSpan.FromMilliseconds(250));
+            //move.EasingFunction = new ElasticEase();
+            Storyboard.SetTarget(move, this);
+            Storyboard.SetTargetProperty(move, new PropertyPath(Window.LeftProperty));
+
+            Storyboard sb = new Storyboard();
+            sb.Children.Add(move);
+            sb.Begin();
+        }
+
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            this.Left = (SystemParameters.PrimaryScreenWidth / 2) - (e.NewSize.Width / 2);
-            this.Top = 0;
+            updateWindowPosition(e.NewSize.Width);
         }
     }
 }
