@@ -107,7 +107,7 @@ namespace Countdown
             this.Top = m.Bounds.Top;
 
             var move = new DoubleAnimation(this.Left, m.Bounds.Left + ((m.Bounds.Width / 2) - (width / 2)), TimeSpan.FromMilliseconds(250));
-            //move.EasingFunction = new ElasticEase();
+            move.EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseInOut };
             Storyboard.SetTarget(move, this);
             Storyboard.SetTargetProperty(move, new PropertyPath(Window.LeftProperty));
 
