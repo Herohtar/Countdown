@@ -35,7 +35,17 @@ namespace Countdown
             this.dataObject = new DataObject();
             this.DataContext = this.dataObject;
 
+            this.dataObject.PropertyChanged += dataObject_PropertyChanged;
+
             PeriodicTask.Run(this.dataObject.UpdateCountdown, TimeSpan.FromMilliseconds(1));
+        }
+
+        private void dataObject_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "SelectedMonitor")
+            {
+                this.updateWindowPosition(this.Width);
+            }
         }
 
         protected override void OnSourceInitialized(EventArgs e)
@@ -108,6 +118,7 @@ namespace Countdown
 
             var move = new DoubleAnimation(this.Left, m.Bounds.Left + ((m.Bounds.Width / 2) - (width / 2)), TimeSpan.FromMilliseconds(250));
             move.EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseInOut };
+            
             Storyboard.SetTarget(move, this);
             Storyboard.SetTargetProperty(move, new PropertyPath(Window.LeftProperty));
 
