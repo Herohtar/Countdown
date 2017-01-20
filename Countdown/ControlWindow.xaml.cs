@@ -19,11 +19,11 @@ namespace Countdown
     /// </summary>
     public partial class ControlWindow : Window
     {
-        public ControlWindow(MainWindow parent)
+        public ControlWindow(DataObject dataObject)
         {
             InitializeComponent();
 
-            this.DataContext = parent;
+            this.DataContext = dataObject;
         }
 
         private void okButton_Click(object sender, RoutedEventArgs e)

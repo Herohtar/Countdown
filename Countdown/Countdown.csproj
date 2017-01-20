@@ -62,6 +62,7 @@
     <Compile Include="ControlWindow.xaml.cs">
       <DependentUpon>ControlWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DataObject.cs" />
     <Compile Include="WindowsServices.cs" />
     <Page Include="ControlWindow.xaml">
       <SubType>Designer</SubType>
