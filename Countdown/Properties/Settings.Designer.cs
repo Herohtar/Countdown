@@ -82,5 +82,29 @@ namespace Countdown.Properties {
                 this["CompletionText"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("24")]
+        public int CountdownFontSize {
+            get {
+                return ((int)(this["CountdownFontSize"]));
+            }
+            set {
+                this["CountdownFontSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Segoe UI")]
+        public global::System.Windows.Media.FontFamily CountdownFontFamily {
+            get {
+                return ((global::System.Windows.Media.FontFamily)(this["CountdownFontFamily"]));
+            }
+            set {
+                this["CountdownFontFamily"] = value;
+            }
+        }
     }
 }

@@ -17,5 +17,11 @@
     <Setting Name="CompletionText" Type="System.String" Scope="User">
       <Value Profile="(Default)">It's time!</Value>
     </Setting>
+    <Setting Name="CountdownFontSize" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">24</Value>
+    </Setting>
+    <Setting Name="CountdownFontFamily" Type="System.Windows.Media.FontFamily" Scope="User">
+      <Value Profile="(Default)">Segoe UI</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

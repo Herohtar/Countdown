@@ -30,6 +30,8 @@ namespace Countdown
         private int minimumLevel;
         private Units minimumUnits;
         private string completionText;
+        private int countdownFontSize;
+        private FontFamily countdownFontFamily;
         private HwndSource _source;
         private const int HOTKEY_ID = 9000;
         private ControlWindow controlWindow;
@@ -53,6 +55,8 @@ namespace Countdown
             this.ShadowColor = Properties.Settings.Default.ShadowColor;
             this.MinimumLevel = Properties.Settings.Default.MinimumLevel;
             this.CompletionText = Properties.Settings.Default.CompletionText;
+            this.CountdownFontSize = Properties.Settings.Default.CountdownFontSize;
+            this.CountdownFontFamily = Properties.Settings.Default.CountdownFontFamily;
 
             PeriodicTask.Run(updateCountdown, TimeSpan.FromMilliseconds(1));
         }
@@ -74,6 +78,36 @@ namespace Countdown
             this._source = null;
             unregisterHotKey();
             base.OnClosed(e);
+        }
+
+        public FontFamily CountdownFontFamily
+        {
+            get { return this.countdownFontFamily; }
+            set
+            {
+                if (this.countdownFontFamily != value)
+                {
+                    this.countdownFontFamily = value;
+                    Properties.Settings.Default.CountdownFontFamily = value;
+                    Properties.Settings.Default.Save();
+                    RaisePropertyChangedEvent("CountdownFontFamily");
+                }
+            }
+        }
+
+        public int CountdownFontSize
+        {
+            get { return this.countdownFontSize; }
+            set
+            {
+                if (this.countdownFontSize != value)
+                {
+                    this.countdownFontSize = value;
+                    Properties.Settings.Default.CountdownFontSize = value;
+                    Properties.Settings.Default.Save();
+                    RaisePropertyChangedEvent("CountdownFontSize");
+                }
+            }
         }
 
         public string CompletionText

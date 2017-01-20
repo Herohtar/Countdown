@@ -5,8 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Countdown"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         mc:Ignorable="d"
         Title="Controls" Height="300" Width="325" ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow" Topmost="True" Closing="Window_Closing">
+    <Window.Resources>
+        <CollectionViewSource Source="{Binding Source={x:Static Fonts.SystemFontFamilies}}" x:Key="myFonts">
+            <CollectionViewSource.SortDescriptions>
+                <scm:SortDescription PropertyName="Source" />
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+    </Window.Resources>
     <DockPanel>
         <Grid DockPanel.Dock="Bottom">
             <Grid.ColumnDefinitions>
@@ -28,26 +36,37 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition />
             </Grid.RowDefinitions>
             
             <TextBlock Margin="5" Text="Target date:" />
             <xctk:DateTimePicker Margin="5" Grid.Column="1" Grid.ColumnSpan="2" Format="Custom" FormatString="MMMM d, yyyy HH:mm:ss" Value="{Binding TargetDate}" />
 
-            <TextBlock Margin="5" Grid.Row="1" Text="Text color:" />
-            <xctk:ColorPicker Margin="5" Grid.Row="1" Grid.Column="1" SelectedColor="{Binding TextColor}" />
-            <TextBlock Margin="5" Grid.Row="1" Grid.Column="2" Text="{Binding TextColor}" />
+            <TextBlock Margin="5" Grid.Row="1" Text="Completion text:" />
+            <TextBox Margin="5" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding CompletionText}" />
 
-            <TextBlock Margin="5" Grid.Row="2" Text="Shadow color:" />
-            <xctk:ColorPicker Margin="5" Grid.Row="2" Grid.Column="1" SelectedColor="{Binding ShadowColor}" />
-            <TextBlock Margin="5" Grid.Row="2" Grid.Column="2" Text="{Binding ShadowColor}" />
+            <TextBlock Margin="5" Grid.Row="2" Text="Text color:" />
+            <xctk:ColorPicker Margin="5" Grid.Row="2" Grid.Column="1" SelectedColor="{Binding TextColor}" />
+            <TextBlock Margin="5" Grid.Row="2" Grid.Column="2" Text="{Binding TextColor}" />
 
-            <TextBlock Margin="5" Grid.Row="3" Text="Smallest unit:" />
-            <Slider Margin="5" Grid.Row="3" Grid.Column="1" Minimum="0" Maximum="4" TickFrequency="1" TickPlacement="BottomRight" IsSnapToTickEnabled="True" Value="{Binding MinimumLevel}" />
-            <TextBlock Margin="5" Grid.Row="3" Grid.Column="2" Text="{Binding MinimumUnits}" />
+            <TextBlock Margin="5" Grid.Row="3" Text="Shadow color:" />
+            <xctk:ColorPicker Margin="5" Grid.Row="3" Grid.Column="1" SelectedColor="{Binding ShadowColor}" />
+            <TextBlock Margin="5" Grid.Row="3" Grid.Column="2" Text="{Binding ShadowColor}" />
 
-            <TextBlock Margin="5" Grid.Row="4" Text="Completion text:" />
-            <TextBox Margin="5" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding CompletionText}" />
+            <TextBlock Margin="5" Grid.Row="4" Text="Font / size:" />
+            <ComboBox Margin="5" Grid.Row="4" Grid.Column="1" ItemsSource="{Binding Source={StaticResource myFonts}}" SelectedValue="{Binding CountdownFontFamily}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Margin="0 1 0 1" Text="{Binding}" FontFamily="{Binding}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <xctk:IntegerUpDown Margin="5" Grid.Row="4" Grid.Column="2" Minimum="1" Maximum="128" Value="{Binding CountdownFontSize}" />
+
+            <TextBlock Margin="5" Grid.Row="5" Text="Smallest unit:" />
+            <Slider Margin="5" Grid.Row="5" Grid.Column="1" Minimum="0" Maximum="4" TickFrequency="1" TickPlacement="BottomRight" IsSnapToTickEnabled="True" Value="{Binding MinimumLevel}" />
+            <TextBlock Margin="5" Grid.Row="5" Grid.Column="2" Text="{Binding MinimumUnits}" />
         </Grid>
     </DockPanel>
 </Window>
