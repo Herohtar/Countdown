@@ -23,6 +23,7 @@ namespace Countdown
         private FontFamily countdownFontFamily;
         private int selectedMonitor;
         private ObservableCollection<string> monitorList;
+        private bool useWeeks;
 
         public enum Units
         {
@@ -48,6 +49,22 @@ namespace Countdown
                 this.MonitorList.Add(m.Name.TrimStart(new char[] { '\\', '.' }) + (m.IsPrimary ? " (Primary)" : ""));
             }
             this.SelectedMonitor = Properties.Settings.Default.SelectedMonitor;
+            this.UseWeeks = Properties.Settings.Default.UseWeeks;
+        }
+
+        public bool UseWeeks
+        {
+            get { return this.useWeeks; }
+            set
+            {
+                if (this.useWeeks != value)
+                {
+                    this.useWeeks = value;
+                    Properties.Settings.Default.UseWeeks = value;
+                    Properties.Settings.Default.Save();
+                    RaisePropertyChangedEvent("UseWeeks");
+                }
+            }
         }
 
         public ObservableCollection<string> MonitorList
@@ -227,11 +244,16 @@ namespace Countdown
         public void UpdateCountdown()
         {
             TimeSpan difference = this.targetDate - DateTime.Now;
+            difference.UseWeeks(this.UseWeeks);
             List<string> timeStrings = new List<string>();
 
-            if (difference.Days > 0)
+            if (difference.Weeks() > 0)
             {
-                timeStrings.Add(formatUnits(difference.Days, "day"));
+                timeStrings.Add(formatUnits(difference.Weeks(), "week"));
+            }
+            if ((difference.Days() > 0) || (timeStrings.Count > 0))
+            {
+                timeStrings.Add(formatUnits(difference.Days(), "day"));
             }
             if (((this.MinimumUnits <= Units.Hours) || (timeStrings.Count == 0)) && ((difference.Hours > 0) || (timeStrings.Count > 0)))
             {

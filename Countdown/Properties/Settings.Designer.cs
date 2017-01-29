@@ -118,5 +118,17 @@ namespace Countdown.Properties {
                 this["SelectedMonitor"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool UseWeeks {
+            get {
+                return ((bool)(this["UseWeeks"]));
+            }
+            set {
+                this["UseWeeks"] = value;
+            }
+        }
     }
 }

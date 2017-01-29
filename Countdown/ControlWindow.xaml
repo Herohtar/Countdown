@@ -7,7 +7,7 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         mc:Ignorable="d"
-        Title="Controls" Height="300" Width="325" ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow" Topmost="True" Closing="Window_Closing">
+        Title="Controls" Height="300" Width="325" ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow" Topmost="True" Closing="Window_Closing" SizeToContent="Height">
     <Window.Resources>
         <CollectionViewSource Source="{Binding Source={x:Static Fonts.SystemFontFamilies}}" x:Key="myFonts">
             <CollectionViewSource.SortDescriptions>
@@ -31,6 +31,7 @@
                 <ColumnDefinition Width="2*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -71,6 +72,8 @@
             
             <TextBlock Margin="5" Grid.Row="6" Text="Monitor:" />
             <ComboBox Margin="5" Grid.Row="6" Grid.Column="1" ItemsSource="{Binding MonitorList}" SelectedIndex="{Binding SelectedMonitor}" />
+
+            <CheckBox Margin="5" Grid.Row="7" Content="Use Weeks" IsChecked="{Binding UseWeeks}" />
         </Grid>
     </DockPanel>
 </Window>
