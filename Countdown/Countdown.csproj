@@ -68,6 +68,7 @@
     <Compile Include="DataObject.cs" />
     <Compile Include="Monitor.cs" />
     <Compile Include="TimeSpanExtensions.cs" />
+    <Compile Include="Units.cs" />
     <Compile Include="WindowsServices.cs" />
     <Page Include="ControlWindow.xaml">
       <SubType>Designer</SubType>

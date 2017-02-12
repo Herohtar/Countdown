@@ -18,21 +18,13 @@ namespace Countdown
         private Color shadowColor;
         private int minimumLevel;
         private Units minimumUnits;
+        private int maximumLevel;
+        private Units maximumUnits;
         private string completionText;
         private int countdownFontSize;
         private FontFamily countdownFontFamily;
         private int selectedMonitor;
         private ObservableCollection<string> monitorList;
-        private bool useWeeks;
-
-        public enum Units
-        {
-            Milliseconds,
-            Seconds,
-            Minutes,
-            Hours,
-            Days
-        }
 
         public DataObject()
         {
@@ -40,6 +32,7 @@ namespace Countdown
             this.TextColor = Properties.Settings.Default.TextColor;
             this.ShadowColor = Properties.Settings.Default.ShadowColor;
             this.MinimumLevel = Properties.Settings.Default.MinimumLevel;
+            this.MaximumLevel = Properties.Settings.Default.MaximumLevel;
             this.CompletionText = Properties.Settings.Default.CompletionText;
             this.CountdownFontSize = Properties.Settings.Default.CountdownFontSize;
             this.CountdownFontFamily = Properties.Settings.Default.CountdownFontFamily;
@@ -49,22 +42,6 @@ namespace Countdown
                 this.MonitorList.Add(m.Name.TrimStart(new char[] { '\\', '.' }) + (m.IsPrimary ? " (Primary)" : ""));
             }
             this.SelectedMonitor = Properties.Settings.Default.SelectedMonitor;
-            this.UseWeeks = Properties.Settings.Default.UseWeeks;
-        }
-
-        public bool UseWeeks
-        {
-            get { return this.useWeeks; }
-            set
-            {
-                if (this.useWeeks != value)
-                {
-                    this.useWeeks = value;
-                    Properties.Settings.Default.UseWeeks = value;
-                    Properties.Settings.Default.Save();
-                    RaisePropertyChangedEvent("UseWeeks");
-                }
-            }
         }
 
         public ObservableCollection<string> MonitorList
@@ -169,6 +146,35 @@ namespace Countdown
             }
         }
 
+        public int MaximumLevel
+        {
+            get { return this.maximumLevel; }
+            set
+            {
+                if (this.maximumLevel != value)
+                {
+                    this.maximumLevel = value;
+                    this.MaximumUnits = (Units)value;
+                    Properties.Settings.Default.MaximumLevel = value;
+                    Properties.Settings.Default.Save();
+                    RaisePropertyChangedEvent("MaximumLevel");
+                }
+            }
+        }
+
+        public Units MaximumUnits
+        {
+            get { return this.maximumUnits; }
+            set
+            {
+                if (this.maximumUnits != value)
+                {
+                    this.maximumUnits = value;
+                    RaisePropertyChangedEvent("MaximumUnits");
+                }
+            }
+        }
+
         public DateTime TargetDate
         {
             get { return this.targetDate; }
@@ -244,45 +250,10 @@ namespace Countdown
         public void UpdateCountdown()
         {
             TimeSpan difference = this.targetDate - DateTime.Now;
-            difference.UseWeeks(this.UseWeeks);
-            List<string> timeStrings = new List<string>();
+            difference.MaximumUnits(this.MaximumUnits);
+            difference.MinumumUnits(this.MinimumUnits);
 
-            if (difference.Weeks() > 0)
-            {
-                timeStrings.Add(formatUnits(difference.Weeks(), "week"));
-            }
-            if ((difference.Days() > 0) || (timeStrings.Count > 0))
-            {
-                timeStrings.Add(formatUnits(difference.Days(), "day"));
-            }
-            if (((this.MinimumUnits <= Units.Hours) || (timeStrings.Count == 0)) && ((difference.Hours > 0) || (timeStrings.Count > 0)))
-            {
-                timeStrings.Add(formatUnits(difference.Hours, "hour"));
-            }
-            if (((this.MinimumUnits <= Units.Minutes) || (timeStrings.Count == 0)) && ((difference.Minutes > 0) || (timeStrings.Count > 0)))
-            {
-                timeStrings.Add(formatUnits(difference.Minutes, "minute"));
-            }
-            if (((this.MinimumUnits <= Units.Seconds) || (timeStrings.Count == 0)) && ((difference.Seconds > 0) || (timeStrings.Count > 0)))
-            {
-                timeStrings.Add(formatUnits(difference.Seconds, "second"));
-            }
-            if (((this.MinimumUnits <= Units.Milliseconds) || (timeStrings.Count == 0)) && ((difference.Milliseconds > 0) || (timeStrings.Count > 0)))
-            {
-                timeStrings.Add(formatUnits(difference.Milliseconds, "millisecond"));
-            }
-
-            this.TimeLeft = (timeStrings.Count > 0) ? String.Join(", ", timeStrings) : this.CompletionText;
-        }
-
-        private string formatUnits(int count, string units)
-        {
-            if (units == "millisecond")
-            {
-                return String.Format("{0:D3} {1}{2}", count, units, (count == -1) ? "" : "s");
-            }
-
-            return String.Format("{0} {1}{2}", count, units, (count == 1) ? "" : "s");
+            this.TimeLeft = difference.FormattedDifference(this.CompletionText);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

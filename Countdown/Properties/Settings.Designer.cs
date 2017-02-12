@@ -121,13 +121,13 @@ namespace Countdown.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool UseWeeks {
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public int MaximumLevel {
             get {
-                return ((bool)(this["UseWeeks"]));
+                return ((int)(this["MaximumLevel"]));
             }
             set {
-                this["UseWeeks"] = value;
+                this["MaximumLevel"] = value;
             }
         }
     }
