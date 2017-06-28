@@ -17,7 +17,7 @@ namespace Countdown
     /// <summary>
     /// Interaction logic for ControlWindow.xaml
     /// </summary>
-    public partial class ControlWindow : Window
+    public partial class ControlWindow
     {
         public ControlWindow(DataObject dataObject)
         {
