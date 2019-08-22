@@ -11,13 +11,14 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using MahApps.Metro.Controls;
 
 namespace Countdown
 {
     /// <summary>
     /// Interaction logic for ControlWindow.xaml
     /// </summary>
-    public partial class ControlWindow : Window
+    public partial class ControlWindow : MetroWindow
     {
         public ControlWindow(DataObject dataObject)
         {

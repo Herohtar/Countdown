@@ -2,24 +2,24 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using ValidationBase;
 
 namespace Countdown
 {
-    public class DataObject : INotifyPropertyChanged
+    public class DataObject : ValidatableObject<DataObject>
     {
         private string timeLeft;
         private DateTime targetDate;
-        private Brush textColorBrush;
         private Color textColor;
         private Color shadowColor;
         private int minimumLevel;
-        private Units minimumUnits;
         private int maximumLevel;
-        private Units maximumUnits;
         private string completionText;
         private int countdownFontSize;
         private FontFamily countdownFontFamily;
@@ -28,6 +28,8 @@ namespace Countdown
 
         public DataObject()
         {
+            Rules.Add(new DelegateRule<DataObject>("CompletionText", "Completion Text can not be empty!", x => !String.IsNullOrEmpty(x.CompletionText)));
+
             this.TargetDate = Properties.Settings.Default.TargetDate;
             this.TextColor = Properties.Settings.Default.TextColor;
             this.ShadowColor = Properties.Settings.Default.ShadowColor;
@@ -42,6 +44,22 @@ namespace Countdown
                 this.MonitorList.Add(m.Name.TrimStart(new char[] { '\\', '.' }) + (m.IsPrimary ? " (Primary)" : ""));
             }
             this.SelectedMonitor = Properties.Settings.Default.SelectedMonitor;
+
+            WhenPropertyChanged.Subscribe(x => saveProperties());
+        }
+
+        private void saveProperties()
+        {
+            Properties.Settings.Default.TargetDate = this.TargetDate;
+            Properties.Settings.Default.TextColor = this.TextColor;
+            Properties.Settings.Default.ShadowColor = this.ShadowColor;
+            Properties.Settings.Default.MinimumLevel = this.MinimumLevel;
+            Properties.Settings.Default.MaximumLevel = this.MaximumLevel;
+            Properties.Settings.Default.CompletionText = this.CompletionText;
+            Properties.Settings.Default.CountdownFontSize = this.CountdownFontSize;
+            Properties.Settings.Default.CountdownFontFamily = this.CountdownFontFamily;
+            Properties.Settings.Default.SelectedMonitor = this.SelectedMonitor;
+            Properties.Settings.Default.Save();
         }
 
         public ObservableCollection<string> MonitorList
@@ -49,11 +67,7 @@ namespace Countdown
             get { return this.monitorList; }
             set
             {
-                if (this.monitorList != value)
-                {
-                    this.monitorList = value;
-                    RaisePropertyChangedEvent("MonitorList");
-                }
+                SetProperty(ref this.monitorList, value);
             }
         }
 
@@ -62,13 +76,7 @@ namespace Countdown
             get { return this.selectedMonitor; }
             set
             {
-                if (this.selectedMonitor != value)
-                {
-                    this.selectedMonitor = value;
-                    Properties.Settings.Default.SelectedMonitor = value;
-                    Properties.Settings.Default.Save();
-                    RaisePropertyChangedEvent("SelectedMonitor");
-                }
+                SetProperty(ref this.selectedMonitor, value);
             }
         }
 
@@ -77,13 +85,7 @@ namespace Countdown
             get { return this.countdownFontFamily; }
             set
             {
-                if (this.countdownFontFamily != value)
-                {
-                    this.countdownFontFamily = value;
-                    Properties.Settings.Default.CountdownFontFamily = value;
-                    Properties.Settings.Default.Save();
-                    RaisePropertyChangedEvent("CountdownFontFamily");
-                }
+                SetProperty(ref this.countdownFontFamily, value);
             }
         }
 
@@ -92,13 +94,7 @@ namespace Countdown
             get { return this.countdownFontSize; }
             set
             {
-                if (this.countdownFontSize != value)
-                {
-                    this.countdownFontSize = value;
-                    Properties.Settings.Default.CountdownFontSize = value;
-                    Properties.Settings.Default.Save();
-                    RaisePropertyChangedEvent("CountdownFontSize");
-                }
+                SetProperty(ref this.countdownFontSize, value);
             }
         }
 
@@ -107,13 +103,7 @@ namespace Countdown
             get { return this.completionText; }
             set
             {
-                if (this.completionText != value)
-                {
-                    this.completionText = value;
-                    Properties.Settings.Default.CompletionText = value;
-                    Properties.Settings.Default.Save();
-                    RaisePropertyChangedEvent("CompletionText");
-                }
+                SetProperty(ref this.completionText, value);
             }
         }
 
@@ -122,28 +112,14 @@ namespace Countdown
             get { return this.minimumLevel; }
             set
             {
-                if (this.minimumLevel != value)
-                {
-                    this.minimumLevel = value;
-                    this.MinimumUnits = (Units)value;
-                    Properties.Settings.Default.MinimumLevel = value;
-                    Properties.Settings.Default.Save();
-                    RaisePropertyChangedEvent("MinimumLevel");
-                }
+                SetProperty(ref this.minimumLevel, value, "MinimumLevel", "MinimumUnits");
             }
         }
 
         public Units MinimumUnits
         {
-            get { return this.minimumUnits; }
-            set
-            {
-                if (this.minimumUnits != value)
-                {
-                    this.minimumUnits = value;
-                    RaisePropertyChangedEvent("MinimumUnits");
-                }
-            }
+            get { return (Units)this.minimumLevel; }
+            private set { }
         }
 
         public int MaximumLevel
@@ -151,28 +127,14 @@ namespace Countdown
             get { return this.maximumLevel; }
             set
             {
-                if (this.maximumLevel != value)
-                {
-                    this.maximumLevel = value;
-                    this.MaximumUnits = (Units)value;
-                    Properties.Settings.Default.MaximumLevel = value;
-                    Properties.Settings.Default.Save();
-                    RaisePropertyChangedEvent("MaximumLevel");
-                }
+                SetProperty(ref this.maximumLevel, value, "MaximumLevel", "MaximumUnits");
             }
         }
 
         public Units MaximumUnits
         {
-            get { return this.maximumUnits; }
-            set
-            {
-                if (this.maximumUnits != value)
-                {
-                    this.maximumUnits = value;
-                    RaisePropertyChangedEvent("MaximumUnits");
-                }
-            }
+            get { return (Units)this.maximumLevel; }
+            private set { }
         }
 
         public DateTime TargetDate
@@ -180,27 +142,14 @@ namespace Countdown
             get { return this.targetDate; }
             set
             {
-                if (this.targetDate != value)
-                {
-                    this.targetDate = value;
-                    Properties.Settings.Default.TargetDate = value;
-                    Properties.Settings.Default.Save();
-                    RaisePropertyChangedEvent("TargetDate");
-                }
+                SetProperty(ref this.targetDate, value);
             }
         }
 
         public Brush TextColorBrush
         {
-            get { return this.textColorBrush; }
-            set
-            {
-                if (this.textColorBrush != value)
-                {
-                    this.textColorBrush = value;
-                    RaisePropertyChangedEvent("TextColorBrush");
-                }
-            }
+            get { return new SolidColorBrush(this.textColor); }
+            private set { }
         }
 
         public Color TextColor
@@ -208,14 +157,7 @@ namespace Countdown
             get { return this.textColor; }
             set
             {
-                if (this.textColor != value)
-                {
-                    this.textColor = value;
-                    this.TextColorBrush = new SolidColorBrush(value);
-                    Properties.Settings.Default.TextColor = value;
-                    Properties.Settings.Default.Save();
-                    RaisePropertyChangedEvent("TextColor");
-                }
+                SetProperty(ref this.textColor, value, "TextColor", "TextColorBrush");
             }
         }
 
@@ -224,13 +166,7 @@ namespace Countdown
             get { return this.shadowColor; }
             set
             {
-                if (this.shadowColor != value)
-                {
-                    this.shadowColor = value;
-                    Properties.Settings.Default.ShadowColor = value;
-                    Properties.Settings.Default.Save();
-                    RaisePropertyChangedEvent("ShadowColor");
-                }
+                SetProperty(ref this.shadowColor, value);
             }
         }
 
@@ -239,11 +175,7 @@ namespace Countdown
             get { return this.timeLeft; }
             set
             {
-                if (this.timeLeft != value)
-                {
-                    this.timeLeft = value;
-                    RaisePropertyChangedEvent("TimeLeft");
-                }
+                SetProperty(ref this.timeLeft, value);
             }
         }
 
@@ -254,17 +186,6 @@ namespace Countdown
             difference.MinumumUnits(this.MinimumUnits);
 
             this.TimeLeft = difference.FormattedDifference(this.CompletionText);
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChangedEvent(string propertyName)
-        {
-            var handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
         }
     }
 }

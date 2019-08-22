@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -35,17 +36,9 @@ namespace Countdown
             this.dataObject = new DataObject();
             this.DataContext = this.dataObject;
 
-            this.dataObject.PropertyChanged += dataObject_PropertyChanged;
+            this.dataObject.WhenPropertyChanged.Where(x => string.Equals(x, "SelectedMonitor")).Subscribe(x => this.updateWindowPosition(this.Width));
 
-            PeriodicTask.Run(this.dataObject.UpdateCountdown, TimeSpan.FromMilliseconds(1));
-        }
-
-        private void dataObject_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "SelectedMonitor")
-            {
-                this.updateWindowPosition(this.Width);
-            }
+            Observable.Interval(TimeSpan.FromMilliseconds(1)).Subscribe(x => this.dataObject.UpdateCountdown());
         }
 
         protected override void OnSourceInitialized(EventArgs e)
@@ -130,6 +123,11 @@ namespace Countdown
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             updateWindowPosition(e.NewSize.Width);
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
         }
     }
 }
