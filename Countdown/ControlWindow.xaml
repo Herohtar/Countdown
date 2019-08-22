@@ -44,8 +44,8 @@
             </Grid.RowDefinitions>
             
             <TextBlock Margin="5" VerticalAlignment="Center" Text="Target date:" />
-            <xctk:DateTimePicker Margin="5" Grid.Column="1" Grid.ColumnSpan="2" Format="Custom" FormatString="MMMM d, yyyy HH:mm:ss" Value="{Binding TargetDate}" UpdateValueOnEnterKey="False" />
-
+            <xctk:DateTimePicker Margin="5" Grid.Column="1" Grid.ColumnSpan="2" Format="Custom" FormatString="MMMM d, yyyy HH:mm:ss" Value="{Binding TargetDate}" />
+            
             <TextBlock Margin="5" Grid.Row="1" VerticalAlignment="Center" Text="Completion text:" />
             <TextBox Margin="5" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding CompletionText, ValidatesOnNotifyDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
 
