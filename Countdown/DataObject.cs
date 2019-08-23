@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -25,13 +25,14 @@ namespace Countdown
         private FontFamily countdownFontFamily;
         private int selectedMonitor;
         private ObservableCollection<string> monitorList;
+        private readonly string[] settingsProperties = new[] { "TargetDate", "TextColor", "ShadowColor", "MinumumLevel", "MaximumLevel", "CompletionText", "CountdownFontSize", "CountdownFontFamily", "SelectedMonitor" };
 
         private Settings settings;
 
         public DataObject()
         {
             Rules.Add(new DelegateRule<DataObject>("CompletionText", "Completion Text can not be empty!", x => !String.IsNullOrEmpty(x.CompletionText)));
-
+            
             settings = new Settings();
 
             this.TargetDate = settings.TargetDate;
@@ -49,7 +50,7 @@ namespace Countdown
             }
             this.SelectedMonitor = settings.SelectedMonitor;
 
-            WhenPropertyChanged.Subscribe(x => saveProperties());
+            WhenPropertyChanged.Where(x => settingsProperties.Contains(x)).Subscribe(x => saveProperties());
         }
 
         private void saveProperties()
