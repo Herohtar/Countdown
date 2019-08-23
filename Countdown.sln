@@ -1,25 +1,34 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29215.179
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Countdown", "Countdown\Countdown.csproj", "{53C63A95-D0A1-4CB0-A87F-FAFFCE30A52F}"
+# Visual Studio 15
+VisualStudioVersion = 15.0.26124.0
+MinimumVisualStudioVersion = 15.0.26124.0
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Countdown", "Countdown\Countdown.csproj", "{0E696106-BFB9-4B06-8E51-E0348601F2FA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{53C63A95-D0A1-4CB0-A87F-FAFFCE30A52F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{53C63A95-D0A1-4CB0-A87F-FAFFCE30A52F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{53C63A95-D0A1-4CB0-A87F-FAFFCE30A52F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{53C63A95-D0A1-4CB0-A87F-FAFFCE30A52F}.Release|Any CPU.Build.0 = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {534FA149-052F-4971-A152-43D7DD0EA3DD}
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0E696106-BFB9-4B06-8E51-E0348601F2FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E696106-BFB9-4B06-8E51-E0348601F2FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E696106-BFB9-4B06-8E51-E0348601F2FA}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0E696106-BFB9-4B06-8E51-E0348601F2FA}.Debug|x64.Build.0 = Debug|Any CPU
+		{0E696106-BFB9-4B06-8E51-E0348601F2FA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0E696106-BFB9-4B06-8E51-E0348601F2FA}.Debug|x86.Build.0 = Debug|Any CPU
+		{0E696106-BFB9-4B06-8E51-E0348601F2FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E696106-BFB9-4B06-8E51-E0348601F2FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E696106-BFB9-4B06-8E51-E0348601F2FA}.Release|x64.ActiveCfg = Release|Any CPU
+		{0E696106-BFB9-4B06-8E51-E0348601F2FA}.Release|x64.Build.0 = Release|Any CPU
+		{0E696106-BFB9-4B06-8E51-E0348601F2FA}.Release|x86.ActiveCfg = Release|Any CPU
+		{0E696106-BFB9-4B06-8E51-E0348601F2FA}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
