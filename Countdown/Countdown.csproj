@@ -5,6 +5,7 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <ApplicationIcon>Images\hourglass.ico</ApplicationIcon>
+    <PublishSingleFile>true</PublishSingleFile>
     <UseWPF>true</UseWPF>
     <StartupObject>Countdown.EntryPoint</StartupObject>
   </PropertyGroup>
