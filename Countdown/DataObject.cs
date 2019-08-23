@@ -30,27 +30,27 @@ namespace Countdown
         {
             Rules.Add(new DelegateRule<DataObject>("CompletionText", "Completion Text can not be empty!", x => !String.IsNullOrEmpty(x.CompletionText)));
 
-            this.TargetDate = Properties.Settings.Default.TargetDate;
+            /* this.TargetDate = Properties.Settings.Default.TargetDate;
             this.TextColor = Properties.Settings.Default.TextColor;
             this.ShadowColor = Properties.Settings.Default.ShadowColor;
             this.MinimumLevel = Properties.Settings.Default.MinimumLevel;
             this.MaximumLevel = Properties.Settings.Default.MaximumLevel;
             this.CompletionText = Properties.Settings.Default.CompletionText;
             this.CountdownFontSize = Properties.Settings.Default.CountdownFontSize;
-            this.CountdownFontFamily = Properties.Settings.Default.CountdownFontFamily;
+            this.CountdownFontFamily = Properties.Settings.Default.CountdownFontFamily; */
             this.MonitorList = new ObservableCollection<string>();
             foreach (Monitor m in Monitor.AllMonitors)
             {
                 this.MonitorList.Add(m.Name.TrimStart(new char[] { '\\', '.' }) + (m.IsPrimary ? " (Primary)" : ""));
             }
-            this.SelectedMonitor = Properties.Settings.Default.SelectedMonitor;
+            //this.SelectedMonitor = Properties.Settings.Default.SelectedMonitor;
 
             WhenPropertyChanged.Subscribe(x => saveProperties());
         }
 
         private void saveProperties()
         {
-            Properties.Settings.Default.TargetDate = this.TargetDate;
+            /* Properties.Settings.Default.TargetDate = this.TargetDate;
             Properties.Settings.Default.TextColor = this.TextColor;
             Properties.Settings.Default.ShadowColor = this.ShadowColor;
             Properties.Settings.Default.MinimumLevel = this.MinimumLevel;
@@ -59,7 +59,7 @@ namespace Countdown
             Properties.Settings.Default.CountdownFontSize = this.CountdownFontSize;
             Properties.Settings.Default.CountdownFontFamily = this.CountdownFontFamily;
             Properties.Settings.Default.SelectedMonitor = this.SelectedMonitor;
-            Properties.Settings.Default.Save();
+            Properties.Settings.Default.Save(); */
         }
 
         public ObservableCollection<string> MonitorList
@@ -183,7 +183,7 @@ namespace Countdown
         {
             TimeSpan difference = this.targetDate - DateTime.Now;
             difference.MaximumUnits(this.MaximumUnits);
-            difference.MinumumUnits(this.MinimumUnits);
+            difference.MinimumUnits(this.MinimumUnits);
 
             this.TimeLeft = difference.FormattedDifference(this.CompletionText);
         }

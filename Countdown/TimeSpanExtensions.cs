@@ -12,7 +12,7 @@ namespace Countdown
         private static Units minimumUnits = Units.Milliseconds;
         private static Units maximumUnits = Units.Weeks;
 
-        public static Units MinumumUnits(this TimeSpan timeSpan, Units? units)
+        public static Units MinimumUnits(this TimeSpan timeSpan, Units? units)
         {
             if (units != null)
             {
