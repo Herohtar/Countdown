@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -26,40 +26,44 @@ namespace Countdown
         private int selectedMonitor;
         private ObservableCollection<string> monitorList;
 
+        private Settings settings;
+
         public DataObject()
         {
             Rules.Add(new DelegateRule<DataObject>("CompletionText", "Completion Text can not be empty!", x => !String.IsNullOrEmpty(x.CompletionText)));
 
-            this.TargetDate = DateTime.Now;
-            this.TextColor = System.Windows.Media.Colors.White;
-            this.ShadowColor = System.Windows.Media.Colors.Black;
-            this.MinimumLevel = 0;
-            this.MaximumLevel = 5;
-            this.CompletionText = "It's time!";
-            this.CountdownFontSize = 24;
-            this.CountdownFontFamily = new System.Windows.Media.FontFamily("Segoe UI");
+            settings = new Settings();
+
+            this.TargetDate = settings.TargetDate;
+            this.TextColor = settings.TextColor;
+            this.ShadowColor = settings.ShadowColor;
+            this.MinimumLevel = settings.MinimumLevel;
+            this.MaximumLevel = settings.MaximumLevel;
+            this.CompletionText = settings.CompletionText;
+            this.CountdownFontSize = settings.CountdownFontSize;
+            this.CountdownFontFamily = settings.CountdownFontFamily;
             this.MonitorList = new ObservableCollection<string>();
             foreach (Monitor m in Monitor.AllMonitors)
             {
                 this.MonitorList.Add(m.Name.TrimStart(new char[] { '\\', '.' }) + (m.IsPrimary ? " (Primary)" : ""));
             }
-            this.SelectedMonitor = 0;
+            this.SelectedMonitor = settings.SelectedMonitor;
 
             WhenPropertyChanged.Subscribe(x => saveProperties());
         }
 
         private void saveProperties()
         {
-            /* Properties.Settings.Default.TargetDate = this.TargetDate;
-            Properties.Settings.Default.TextColor = this.TextColor;
-            Properties.Settings.Default.ShadowColor = this.ShadowColor;
-            Properties.Settings.Default.MinimumLevel = this.MinimumLevel;
-            Properties.Settings.Default.MaximumLevel = this.MaximumLevel;
-            Properties.Settings.Default.CompletionText = this.CompletionText;
-            Properties.Settings.Default.CountdownFontSize = this.CountdownFontSize;
-            Properties.Settings.Default.CountdownFontFamily = this.CountdownFontFamily;
-            Properties.Settings.Default.SelectedMonitor = this.SelectedMonitor;
-            Properties.Settings.Default.Save(); */
+            settings.TargetDate = this.TargetDate;
+            settings.TextColor = this.TextColor;
+            settings.ShadowColor = this.ShadowColor;
+            settings.MinimumLevel = this.MinimumLevel;
+            settings.MaximumLevel = this.MaximumLevel;
+            settings.CompletionText = this.CompletionText;
+            settings.CountdownFontSize = this.CountdownFontSize;
+            settings.CountdownFontFamily = this.CountdownFontFamily;
+            settings.SelectedMonitor = this.SelectedMonitor;
+            settings.Save();
         }
 
         public ObservableCollection<string> MonitorList
