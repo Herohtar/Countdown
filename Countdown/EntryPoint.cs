@@ -3,22 +3,22 @@ using System.Threading;
 
 namespace Countdown
 {
-  public class EntryPoint
-  {
-    [STAThread]
-    public static void Main()
+    public class EntryPoint
     {
-      using (Mutex mutex = new Mutex(true, "8D062F74-D870-47C3-BB61-73C516E58919", out bool isFirstApp))
-      {
-        if (!isFirstApp)
+        [STAThread]
+        public static void Main()
         {
-          return;
-        }
+            using (Mutex mutex = new Mutex(true, "8D062F74-D870-47C3-BB61-73C516E58919", out bool isFirstApp))
+            {
+                if (!isFirstApp)
+                {
+                    return;
+                }
 
-        App app = new App();
-        app.InitializeComponent();
-        app.Run();
-      }
+                App app = new App();
+                app.InitializeComponent();
+                app.Run();
+            }
+        }
     }
-  }
 }
