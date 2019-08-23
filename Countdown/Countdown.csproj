@@ -5,6 +5,7 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <ApplicationIcon>Images\hourglass.ico</ApplicationIcon>
     <UseWPF>true</UseWPF>
+    <StartupObject>Countdown.EntryPoint</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
