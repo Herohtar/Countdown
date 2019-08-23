@@ -30,20 +30,20 @@ namespace Countdown
         {
             Rules.Add(new DelegateRule<DataObject>("CompletionText", "Completion Text can not be empty!", x => !String.IsNullOrEmpty(x.CompletionText)));
 
-            /* this.TargetDate = Properties.Settings.Default.TargetDate;
-            this.TextColor = Properties.Settings.Default.TextColor;
-            this.ShadowColor = Properties.Settings.Default.ShadowColor;
-            this.MinimumLevel = Properties.Settings.Default.MinimumLevel;
-            this.MaximumLevel = Properties.Settings.Default.MaximumLevel;
-            this.CompletionText = Properties.Settings.Default.CompletionText;
-            this.CountdownFontSize = Properties.Settings.Default.CountdownFontSize;
-            this.CountdownFontFamily = Properties.Settings.Default.CountdownFontFamily; */
+            this.TargetDate = DateTime.Now;
+            this.TextColor = System.Windows.Media.Colors.White;
+            this.ShadowColor = System.Windows.Media.Colors.Black;
+            this.MinimumLevel = 0;
+            this.MaximumLevel = 5;
+            this.CompletionText = "It's time!";
+            this.CountdownFontSize = 24;
+            this.CountdownFontFamily = new System.Windows.Media.FontFamily("Segoe UI");
             this.MonitorList = new ObservableCollection<string>();
             foreach (Monitor m in Monitor.AllMonitors)
             {
                 this.MonitorList.Add(m.Name.TrimStart(new char[] { '\\', '.' }) + (m.IsPrimary ? " (Primary)" : ""));
             }
-            //this.SelectedMonitor = Properties.Settings.Default.SelectedMonitor;
+            this.SelectedMonitor = 0;
 
             WhenPropertyChanged.Subscribe(x => saveProperties());
         }
