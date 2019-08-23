@@ -16,6 +16,7 @@ namespace Countdown
         }
 
         App app = new App();
+        app.InitializeComponent();
         app.Run();
       }
     }
