@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -125,7 +125,12 @@ namespace Countdown
             updateWindowPosition(e.NewSize.Width);
         }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        private void SettingsItem_Click(object sender, RoutedEventArgs e)
+        {
+            onHotKeyPressed();
+        }
+
+        private void ExitItem_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
         }
