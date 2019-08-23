@@ -25,41 +25,46 @@ namespace Countdown
         private FontFamily countdownFontFamily;
         private int selectedMonitor;
         private ObservableCollection<string> monitorList;
+        private readonly string[] settingsProperties = new[] { "TargetDate", "TextColor", "ShadowColor", "MinumumLevel", "MaximumLevel", "CompletionText", "CountdownFontSize", "CountdownFontFamily", "SelectedMonitor" };
+
+        private Settings settings;
 
         public DataObject()
         {
             Rules.Add(new DelegateRule<DataObject>("CompletionText", "Completion Text can not be empty!", x => !String.IsNullOrEmpty(x.CompletionText)));
+            
+            settings = new Settings();
 
-            this.TargetDate = Properties.Settings.Default.TargetDate;
-            this.TextColor = Properties.Settings.Default.TextColor;
-            this.ShadowColor = Properties.Settings.Default.ShadowColor;
-            this.MinimumLevel = Properties.Settings.Default.MinimumLevel;
-            this.MaximumLevel = Properties.Settings.Default.MaximumLevel;
-            this.CompletionText = Properties.Settings.Default.CompletionText;
-            this.CountdownFontSize = Properties.Settings.Default.CountdownFontSize;
-            this.CountdownFontFamily = Properties.Settings.Default.CountdownFontFamily;
+            this.TargetDate = settings.TargetDate;
+            this.TextColor = settings.TextColor;
+            this.ShadowColor = settings.ShadowColor;
+            this.MinimumLevel = settings.MinimumLevel;
+            this.MaximumLevel = settings.MaximumLevel;
+            this.CompletionText = settings.CompletionText;
+            this.CountdownFontSize = settings.CountdownFontSize;
+            this.CountdownFontFamily = settings.CountdownFontFamily;
             this.MonitorList = new ObservableCollection<string>();
             foreach (Monitor m in Monitor.AllMonitors)
             {
                 this.MonitorList.Add(m.Name.TrimStart(new char[] { '\\', '.' }) + (m.IsPrimary ? " (Primary)" : ""));
             }
-            this.SelectedMonitor = Properties.Settings.Default.SelectedMonitor;
+            this.SelectedMonitor = settings.SelectedMonitor;
 
-            WhenPropertyChanged.Subscribe(x => saveProperties());
+            WhenPropertyChanged.Where(x => settingsProperties.Contains(x)).Subscribe(x => saveProperties());
         }
 
         private void saveProperties()
         {
-            Properties.Settings.Default.TargetDate = this.TargetDate;
-            Properties.Settings.Default.TextColor = this.TextColor;
-            Properties.Settings.Default.ShadowColor = this.ShadowColor;
-            Properties.Settings.Default.MinimumLevel = this.MinimumLevel;
-            Properties.Settings.Default.MaximumLevel = this.MaximumLevel;
-            Properties.Settings.Default.CompletionText = this.CompletionText;
-            Properties.Settings.Default.CountdownFontSize = this.CountdownFontSize;
-            Properties.Settings.Default.CountdownFontFamily = this.CountdownFontFamily;
-            Properties.Settings.Default.SelectedMonitor = this.SelectedMonitor;
-            Properties.Settings.Default.Save();
+            settings.TargetDate = this.TargetDate;
+            settings.TextColor = this.TextColor;
+            settings.ShadowColor = this.ShadowColor;
+            settings.MinimumLevel = this.MinimumLevel;
+            settings.MaximumLevel = this.MaximumLevel;
+            settings.CompletionText = this.CompletionText;
+            settings.CountdownFontSize = this.CountdownFontSize;
+            settings.CountdownFontFamily = this.CountdownFontFamily;
+            settings.SelectedMonitor = this.SelectedMonitor;
+            settings.Save();
         }
 
         public ObservableCollection<string> MonitorList
@@ -183,7 +188,7 @@ namespace Countdown
         {
             TimeSpan difference = this.targetDate - DateTime.Now;
             difference.MaximumUnits(this.MaximumUnits);
-            difference.MinumumUnits(this.MinimumUnits);
+            difference.MinimumUnits(this.MinimumUnits);
 
             this.TimeLeft = difference.FormattedDifference(this.CompletionText);
         }

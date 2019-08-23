@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26228.4
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29215.179
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Countdown", "Countdown\Countdown.csproj", "{34EE601E-E31D-4E6C-914E-E89F6451C045}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Countdown", "Countdown\Countdown.csproj", "{53C63A95-D0A1-4CB0-A87F-FAFFCE30A52F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,12 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{34EE601E-E31D-4E6C-914E-E89F6451C045}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{34EE601E-E31D-4E6C-914E-E89F6451C045}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{34EE601E-E31D-4E6C-914E-E89F6451C045}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{34EE601E-E31D-4E6C-914E-E89F6451C045}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53C63A95-D0A1-4CB0-A87F-FAFFCE30A52F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53C63A95-D0A1-4CB0-A87F-FAFFCE30A52F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53C63A95-D0A1-4CB0-A87F-FAFFCE30A52F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53C63A95-D0A1-4CB0-A87F-FAFFCE30A52F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {534FA149-052F-4971-A152-43D7DD0EA3DD}
 	EndGlobalSection
 EndGlobal

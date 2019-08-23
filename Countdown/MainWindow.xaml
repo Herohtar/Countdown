@@ -21,7 +21,8 @@
             </tb:TaskbarIcon.TrayToolTip>
             <tb:TaskbarIcon.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Exit" Click="MenuItem_Click" />
+                    <MenuItem Header="Settings" Click="SettingsItem_Click" />
+                    <MenuItem Header="Exit" Click="ExitItem_Click" />
                 </ContextMenu>
             </tb:TaskbarIcon.ContextMenu>
         </tb:TaskbarIcon>
