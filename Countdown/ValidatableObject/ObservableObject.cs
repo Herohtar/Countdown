@@ -21,8 +21,8 @@ namespace ValidationBase
         /// </summary>
         event PropertyChangedEventHandler INotifyPropertyChanged.PropertyChanged
         {
-            add { this.propertyChanged += value; }
-            remove { this.propertyChanged -= value; }
+            add { propertyChanged += value; }
+            remove { propertyChanged -= value; }
         }
 
         #endregion
@@ -44,17 +44,11 @@ namespace ValidationBase
         /// <value>
         /// The when property changed observable event.
         /// </value>
-        public IObservable<string> WhenPropertyChanged
-        {
-            get
-            {
-                return Observable
+        public IObservable<string> WhenPropertyChanged => Observable
                     .FromEventPattern<PropertyChangedEventHandler, PropertyChangedEventArgs>(
-                        h => this.propertyChanged += h,
-                        h => this.propertyChanged -= h)
+                        h => propertyChanged += h,
+                        h => propertyChanged -= h)
                     .Select(x => x.EventArgs.PropertyName);
-            }
-        }
 
         #endregion
 
@@ -66,12 +60,7 @@ namespace ValidationBase
         /// <param name="propertyName">Name of the property.</param>
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            PropertyChangedEventHandler eventHandler = this.propertyChanged;
-
-            if (eventHandler != null)
-            {
-                eventHandler(this, new PropertyChangedEventArgs(propertyName));
-            }
+            propertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         /// <summary>
@@ -87,7 +76,7 @@ namespace ValidationBase
 
             foreach (string propertyName in propertyNames)
             {
-                this.OnPropertyChanged(propertyName);
+                OnPropertyChanged(propertyName);
             }
         }
 
@@ -104,10 +93,10 @@ namespace ValidationBase
             TProp newValue,
             [CallerMemberName] string propertyName = null)
         {
-            if (!object.Equals(currentValue, newValue))
+            if (!Equals(currentValue, newValue))
             {
                  currentValue = newValue;
-                this.OnPropertyChanged(propertyName);
+                OnPropertyChanged(propertyName);
 
                 return true;
             }
@@ -128,10 +117,10 @@ namespace ValidationBase
             TProp newValue,
             params string[] propertyNames)
         {
-            if (!object.Equals(currentValue, newValue))
+            if (!Equals(currentValue, newValue))
             {
                 currentValue = newValue;
-                this.OnPropertyChanged(propertyNames);
+                OnPropertyChanged(propertyNames);
 
                 return true;
             }
@@ -157,7 +146,7 @@ namespace ValidationBase
             }
 
             action();
-            this.OnPropertyChanged(propertyName);
+            OnPropertyChanged(propertyName);
 
             return true;
         }
@@ -180,7 +169,7 @@ namespace ValidationBase
             }
 
             action();
-            this.OnPropertyChanged(propertyNames);
+            OnPropertyChanged(propertyNames);
 
             return true;
         }

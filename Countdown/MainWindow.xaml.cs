@@ -25,7 +25,7 @@ namespace Countdown
     public partial class MainWindow : Window
     {
         private DataObject dataObject;
-        private HwndSource _source;
+        private HwndSource source;
         private const int HOTKEY_ID = 9000;
 
         private ControlWindow controlWindow;
@@ -33,12 +33,12 @@ namespace Countdown
         public MainWindow()
         {
             InitializeComponent();
-            this.dataObject = new DataObject();
-            this.DataContext = this.dataObject;
+            dataObject = new DataObject();
+            DataContext = dataObject;
 
-            this.dataObject.WhenPropertyChanged.Where(x => string.Equals(x, "SelectedMonitor")).Subscribe(x => this.updateWindowPosition(this.Width));
+            dataObject.WhenPropertyChanged.Where(x => string.Equals(x, "SelectedMonitor")).Subscribe(x => updateWindowPosition(Width));
 
-            Observable.Interval(TimeSpan.FromMilliseconds(1)).Subscribe(x => this.dataObject.UpdateCountdown());
+            Observable.Interval(TimeSpan.FromMilliseconds(1)).Subscribe(x => dataObject.UpdateCountdown());
         }
 
         protected override void OnSourceInitialized(EventArgs e)
@@ -47,15 +47,15 @@ namespace Countdown
             var helper = new WindowInteropHelper(this);
             var hwnd = helper.Handle;
             WindowsServices.SetWindowExTransparent(hwnd);
-            this._source = HwndSource.FromHwnd(hwnd);
-            this._source.AddHook(hwndHook);
+            source = HwndSource.FromHwnd(hwnd);
+            source.AddHook(hwndHook);
             registerHotKey();
         }
 
         protected override void OnClosed(EventArgs e)
         {
-            this._source.RemoveHook(hwndHook);
-            this._source = null;
+            source.RemoveHook(hwndHook);
+            source = null;
             unregisterHotKey();
             base.OnClosed(e);
         }
@@ -95,25 +95,27 @@ namespace Countdown
 
         private void onHotKeyPressed()
         {
-            if (this.controlWindow == null)
+            if (controlWindow == null)
             {
-                this.controlWindow = new ControlWindow(this.dataObject);
+                controlWindow = new ControlWindow(dataObject);
             }
             
-            this.controlWindow.Show();
-            this.controlWindow.Activate();
+            controlWindow.Show();
+            controlWindow.Activate();
         }
 
         private void updateWindowPosition(double width)
         {
-            Monitor m = Monitor.AllMonitors.ElementAt(this.dataObject.SelectedMonitor);
-            this.Top = m.Bounds.Top;
+            Monitor m = Monitor.AllMonitors.ElementAt(dataObject.SelectedMonitor);
+            Top = m.Bounds.Top;
 
-            var move = new DoubleAnimation(this.Left, m.Bounds.Left + ((m.Bounds.Width / 2) - (width / 2)), TimeSpan.FromMilliseconds(250));
-            move.EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseInOut };
-            
+            var move = new DoubleAnimation(Left, m.Bounds.Left + ((m.Bounds.Width / 2) - (width / 2)), TimeSpan.FromMilliseconds(250))
+            {
+                EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseInOut }
+            };
+
             Storyboard.SetTarget(move, this);
-            Storyboard.SetTargetProperty(move, new PropertyPath(Window.LeftProperty));
+            Storyboard.SetTargetProperty(move, new PropertyPath(LeftProperty));
 
             Storyboard sb = new Storyboard();
             sb.Children.Add(move);

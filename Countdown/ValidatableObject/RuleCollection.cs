@@ -23,7 +23,7 @@ namespace ValidationBase
         /// <param name="rule">The rule to execute.</param>
         public void Add(string propertyName, object error, Func<T, bool> rule)
         {
-            this.Add(new DelegateRule<T>(propertyName, error, rule));
+            Add(new DelegateRule<T>(propertyName, error, rule));
         }
 
         /// <summary>

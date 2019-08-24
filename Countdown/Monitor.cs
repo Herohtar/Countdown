@@ -50,11 +50,11 @@ namespace Countdown
 
         public static HandleRef NullHandleRef = new HandleRef(null, IntPtr.Zero);
 
-        public System.Windows.Rect Bounds { get; private set; }
-        public System.Windows.Rect WorkingArea { get; private set; }
-        public string Name { get; private set; }
+        public System.Windows.Rect Bounds { get; }
+        public System.Windows.Rect WorkingArea { get; }
+        public string Name { get; }
 
-        public bool IsPrimary { get; private set; }
+        public bool IsPrimary { get; }
 
         private Monitor(IntPtr monitor, IntPtr hdc)
         {
@@ -85,7 +85,7 @@ namespace Countdown
 
         private class MonitorEnumCallback
         {
-            public ArrayList Monitors { get; private set; }
+            public ArrayList Monitors { get; }
 
             public MonitorEnumCallback()
             {

@@ -232,6 +232,5 @@ namespace Countdown
             Control = 131072,
             Alt = 262144,
         }
-
     }
 }

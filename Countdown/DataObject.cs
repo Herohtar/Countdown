@@ -31,166 +31,121 @@ namespace Countdown
 
         public DataObject()
         {
-            Rules.Add(new DelegateRule<DataObject>("CompletionText", "Completion Text can not be empty!", x => !String.IsNullOrEmpty(x.CompletionText)));
+            Rules.Add(new DelegateRule<DataObject>("CompletionText", "Completion Text can not be empty!", x => !string.IsNullOrEmpty(x.CompletionText)));
             
             settings = new Settings();
 
-            this.TargetDate = settings.TargetDate;
-            this.TextColor = settings.TextColor;
-            this.ShadowColor = settings.ShadowColor;
-            this.MinimumLevel = settings.MinimumLevel;
-            this.MaximumLevel = settings.MaximumLevel;
-            this.CompletionText = settings.CompletionText;
-            this.CountdownFontSize = settings.CountdownFontSize;
-            this.CountdownFontFamily = settings.CountdownFontFamily;
-            this.MonitorList = new ObservableCollection<string>();
+            TargetDate = settings.TargetDate;
+            TextColor = settings.TextColor;
+            ShadowColor = settings.ShadowColor;
+            MinimumLevel = settings.MinimumLevel;
+            MaximumLevel = settings.MaximumLevel;
+            CompletionText = settings.CompletionText;
+            CountdownFontSize = settings.CountdownFontSize;
+            CountdownFontFamily = settings.CountdownFontFamily;
+            MonitorList = new ObservableCollection<string>();
             foreach (Monitor m in Monitor.AllMonitors)
             {
-                this.MonitorList.Add(m.Name.TrimStart(new char[] { '\\', '.' }) + (m.IsPrimary ? " (Primary)" : ""));
+                MonitorList.Add(m.Name.TrimStart(new char[] { '\\', '.' }) + (m.IsPrimary ? " (Primary)" : ""));
             }
-            this.SelectedMonitor = settings.SelectedMonitor;
+            SelectedMonitor = settings.SelectedMonitor;
 
             WhenPropertyChanged.Where(x => settingsProperties.Contains(x)).Subscribe(x => saveProperties());
         }
 
         private void saveProperties()
         {
-            settings.TargetDate = this.TargetDate;
-            settings.TextColor = this.TextColor;
-            settings.ShadowColor = this.ShadowColor;
-            settings.MinimumLevel = this.MinimumLevel;
-            settings.MaximumLevel = this.MaximumLevel;
-            settings.CompletionText = this.CompletionText;
-            settings.CountdownFontSize = this.CountdownFontSize;
-            settings.CountdownFontFamily = this.CountdownFontFamily;
-            settings.SelectedMonitor = this.SelectedMonitor;
+            settings.TargetDate = TargetDate;
+            settings.TextColor = TextColor;
+            settings.ShadowColor = ShadowColor;
+            settings.MinimumLevel = MinimumLevel;
+            settings.MaximumLevel = MaximumLevel;
+            settings.CompletionText = CompletionText;
+            settings.CountdownFontSize = CountdownFontSize;
+            settings.CountdownFontFamily = CountdownFontFamily;
+            settings.SelectedMonitor = SelectedMonitor;
             settings.Save();
         }
 
         public ObservableCollection<string> MonitorList
         {
-            get { return this.monitorList; }
-            set
-            {
-                SetProperty(ref this.monitorList, value);
-            }
+            get => monitorList;
+            set => SetProperty(ref monitorList, value);
         }
 
         public int SelectedMonitor
         {
-            get { return this.selectedMonitor; }
-            set
-            {
-                SetProperty(ref this.selectedMonitor, value);
-            }
+            get => selectedMonitor;
+            set => SetProperty(ref selectedMonitor, value);
         }
 
         public FontFamily CountdownFontFamily
         {
-            get { return this.countdownFontFamily; }
-            set
-            {
-                SetProperty(ref this.countdownFontFamily, value);
-            }
+            get => countdownFontFamily;
+            set => SetProperty(ref countdownFontFamily, value);
         }
 
         public int CountdownFontSize
         {
-            get { return this.countdownFontSize; }
-            set
-            {
-                SetProperty(ref this.countdownFontSize, value);
-            }
+            get => countdownFontSize;
+            set => SetProperty(ref countdownFontSize, value);
         }
 
         public string CompletionText
         {
-            get { return this.completionText; }
-            set
-            {
-                SetProperty(ref this.completionText, value);
-            }
+            get => completionText;
+            set => SetProperty(ref completionText, value);
         }
 
         public int MinimumLevel
         {
-            get { return this.minimumLevel; }
-            set
-            {
-                SetProperty(ref this.minimumLevel, value, "MinimumLevel", "MinimumUnits");
-            }
+            get => minimumLevel;
+            set => SetProperty(ref minimumLevel, value, "MinimumLevel", "MinimumUnits");
         }
 
-        public Units MinimumUnits
-        {
-            get { return (Units)this.minimumLevel; }
-            private set { }
-        }
+        public Units MinimumUnits => (Units)minimumLevel;
 
         public int MaximumLevel
         {
-            get { return this.maximumLevel; }
-            set
-            {
-                SetProperty(ref this.maximumLevel, value, "MaximumLevel", "MaximumUnits");
-            }
+            get => maximumLevel;
+            set => SetProperty(ref maximumLevel, value, "MaximumLevel", "MaximumUnits");
         }
 
-        public Units MaximumUnits
-        {
-            get { return (Units)this.maximumLevel; }
-            private set { }
-        }
+        public Units MaximumUnits => (Units)maximumLevel;
 
         public DateTime TargetDate
         {
-            get { return this.targetDate; }
-            set
-            {
-                SetProperty(ref this.targetDate, value);
-            }
+            get => targetDate;
+            set => SetProperty(ref targetDate, value);
         }
 
-        public Brush TextColorBrush
-        {
-            get { return new SolidColorBrush(this.textColor); }
-            private set { }
-        }
+        public Brush TextColorBrush => new SolidColorBrush(textColor);
 
         public Color TextColor
         {
-            get { return this.textColor; }
-            set
-            {
-                SetProperty(ref this.textColor, value, "TextColor", "TextColorBrush");
-            }
+            get => textColor;
+            set => SetProperty(ref textColor, value, "TextColor", "TextColorBrush");
         }
 
         public Color ShadowColor
         {
-            get { return this.shadowColor; }
-            set
-            {
-                SetProperty(ref this.shadowColor, value);
-            }
+            get => shadowColor;
+            set => SetProperty(ref shadowColor, value);
         }
 
         public string TimeLeft
         {
-            get { return this.timeLeft; }
-            set
-            {
-                SetProperty(ref this.timeLeft, value);
-            }
+            get => timeLeft;
+            set => SetProperty(ref timeLeft, value);
         }
 
         public void UpdateCountdown()
         {
-            TimeSpan difference = this.targetDate - DateTime.Now;
-            difference.MaximumUnits(this.MaximumUnits);
-            difference.MinimumUnits(this.MinimumUnits);
+            var difference = targetDate - DateTime.Now;
+            difference.MaximumUnits(MaximumUnits);
+            difference.MinimumUnits(MinimumUnits);
 
-            this.TimeLeft = difference.FormattedDifference(this.CompletionText);
+            TimeLeft = difference.FormattedDifference(CompletionText);
         }
     }
 }

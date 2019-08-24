@@ -21,9 +21,6 @@ namespace ValidationBase
         #region Fields
 
         private const string HasErrorsPropertyName = "HasErrors";
-
-        private static RuleCollection<T> rules = new RuleCollection<T>();
-
         private Dictionary<string, List<object>> errors;
 
         #endregion
@@ -35,8 +32,8 @@ namespace ValidationBase
         /// </summary>
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged
         {
-            add { this.errorsChanged += value; }
-            remove { this.errorsChanged -= value; }
+            add { errorsChanged += value; }
+            remove { errorsChanged -= value; }
         }
 
         #endregion
@@ -60,8 +57,8 @@ namespace ValidationBase
         {
             get
             {
-                this.InitializeErrors();
-                return this.errors.Count > 0;
+                InitializeErrors();
+                return errors.Count > 0;
             }
         }
 
@@ -73,18 +70,14 @@ namespace ValidationBase
         /// Gets the rules which provide the errors.
         /// </summary>
         /// <value>The rules this instance must satisfy.</value>
-        protected static RuleCollection<T> Rules
-        {
-            get { return rules; }
-        }
-
+        protected static RuleCollection<T> Rules { get; } = new RuleCollection<T>();
         /// <summary>
         /// Gets the validation errors for the entire object.
         /// </summary>
         /// <returns>A collection of errors.</returns>
         public IEnumerable GetErrors()
         {
-            return this.GetErrors(null);
+            return GetErrors(null);
         }
 
         /// <summary>
@@ -95,14 +88,14 @@ namespace ValidationBase
         /// <returns>A collection of errors.</returns>
         public IEnumerable GetErrors(string propertyName)
         {
-            this.InitializeErrors();
+            InitializeErrors();
 
             IEnumerable result;
             if (string.IsNullOrEmpty(propertyName))
             {
                 List<object> allErrors = new List<object>();
 
-                foreach (KeyValuePair<string, List<object>> keyValuePair in this.errors)
+                foreach (KeyValuePair<string, List<object>> keyValuePair in errors)
                 {
                     allErrors.AddRange(keyValuePair.Value);
                 }
@@ -111,9 +104,9 @@ namespace ValidationBase
             }
             else
             {
-                if (this.errors.ContainsKey(propertyName))
+                if (errors.ContainsKey(propertyName))
                 {
-                    result = this.errors[propertyName];
+                    result = errors[propertyName];
                 }
                 else
                 {
@@ -138,11 +131,11 @@ namespace ValidationBase
 
             if (string.IsNullOrEmpty(propertyName))
             {
-                this.ApplyRules();
+                ApplyRules();
             }
             else
             {
-                this.ApplyRules(propertyName);
+                ApplyRules(propertyName);
             }
 
             base.OnPropertyChanged(HasErrorsPropertyName);
@@ -154,12 +147,7 @@ namespace ValidationBase
         /// <param name="propertyName">Name of the property.</param>
         protected virtual void OnErrorsChanged([CallerMemberName] string propertyName = null)
         {
-            EventHandler<DataErrorsChangedEventArgs> eventHandler = this.errorsChanged;
-
-            if (eventHandler != null)
-            {
-                eventHandler(this, new DataErrorsChangedEventArgs(propertyName));
-            }
+            errorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
         }
 
         #endregion
@@ -171,11 +159,11 @@ namespace ValidationBase
         /// </summary>
         private void ApplyRules()
         {
-            this.InitializeErrors();
+            InitializeErrors();
 
-            foreach (string propertyName in rules.Select(x => x.PropertyName))
+            foreach (string propertyName in Rules.Select(x => x.PropertyName))
             {
-                this.ApplyRules(propertyName);
+                ApplyRules(propertyName);
             }
         }
 
@@ -185,28 +173,28 @@ namespace ValidationBase
         /// <param name="propertyName">Name of the property.</param>
         private void ApplyRules(string propertyName)
         {
-            this.InitializeErrors();
+            InitializeErrors();
 
-            List<object> propertyErrors = rules.Apply((T)this, propertyName).ToList();
+            var propertyErrors = Rules.Apply((T)this, propertyName).ToList();
 
             if (propertyErrors.Count > 0)
             {
-                if (this.errors.ContainsKey(propertyName))
+                if (errors.ContainsKey(propertyName))
                 {
-                    this.errors[propertyName].Clear();
+                    errors[propertyName].Clear();
                 }
                 else
                 {
-                    this.errors[propertyName] = new List<object>();
+                    errors[propertyName] = new List<object>();
                 }
 
-                this.errors[propertyName].AddRange(propertyErrors);
-                this.OnErrorsChanged(propertyName);
+                errors[propertyName].AddRange(propertyErrors);
+                OnErrorsChanged(propertyName);
             }
-            else if (this.errors.ContainsKey(propertyName))
+            else if (errors.ContainsKey(propertyName))
             {
-                this.errors.Remove(propertyName);
-                this.OnErrorsChanged(propertyName);
+                errors.Remove(propertyName);
+                OnErrorsChanged(propertyName);
             }
         }
 
@@ -215,11 +203,11 @@ namespace ValidationBase
         /// </summary>
         private void InitializeErrors()
         {
-            if (this.errors == null)
+            if (errors == null)
             {
-                this.errors = new Dictionary<string, List<object>>();
+                errors = new Dictionary<string, List<object>>();
 
-                this.ApplyRules();
+                ApplyRules();
             }
         }
 

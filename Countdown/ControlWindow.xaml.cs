@@ -24,12 +24,12 @@ namespace Countdown
         {
             InitializeComponent();
 
-            this.DataContext = dataObject;
+            DataContext = dataObject;
         }
 
         private void okButton_Click(object sender, RoutedEventArgs e)
         {
-            this.Hide();
+            Hide();
         }
 
         private void exitButton_Click(object sender, RoutedEventArgs e)
@@ -40,7 +40,7 @@ namespace Countdown
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             e.Cancel = true;
-            this.Hide();
+            Hide();
         }
     }
 }

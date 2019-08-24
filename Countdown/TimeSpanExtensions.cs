@@ -34,7 +34,7 @@ namespace Countdown
 
         private static double getUnits(TimeSpan timeSpan, Units units)
         {
-            double value = 0;
+            var value = 0.0;
 
             switch (units)
             {
@@ -63,7 +63,7 @@ namespace Countdown
 
         public static string FormattedDifference(this TimeSpan timeSpan, string defaultText)
         {
-            List<string> timeStrings = new List<string>();
+            var timeStrings = new List<string>();
 
             int requestedMinimum = (int)minimumUnits;
             for (int i = (int)maximumUnits; i >= requestedMinimum; i--)
@@ -80,18 +80,18 @@ namespace Countdown
                 }
             }
 
-            return (timeStrings.Count > 0) ? String.Join(", ", timeStrings) : defaultText;
+            return (timeStrings.Count > 0) ? string.Join(", ", timeStrings) : defaultText;
         }
 
         private static string formatUnits(double count, Units units)
         {
-            string unit = units.ToString().TrimEnd('s').ToLower();
+            var unit = units.ToString().TrimEnd('s').ToLower();
             if (unit == "millisecond")
             {
-                return String.Format("{0:000} {1}{2}", count, unit, (count == -1) ? "" : "s");
+                return string.Format("{0:000} {1}{2}", count, unit, (count == -1) ? "" : "s");
             }
 
-            return String.Format("{0} {1}{2}", count, unit, (count == 1) ? "" : "s");
+            return string.Format("{0} {1}{2}", count, unit, (count == 1) ? "" : "s");
         }
     }
 }
