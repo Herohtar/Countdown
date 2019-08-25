@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ReactiveComponentModel;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -8,11 +9,10 @@ using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
-using ValidationBase;
 
 namespace Countdown
 {
-    public class DataObject : ValidatableObject<DataObject>
+    public class DataObject : NotifyDataErrorInfo<DataObject>
     {
         private string timeLeft;
         private DateTime targetDate;
