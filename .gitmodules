@@ -1,0 +1,3 @@
+[submodule "ReactiveComponentModel"]
+	path = ReactiveComponentModel
+	url = https://github.com/Herohtar/ReactiveComponentModel
