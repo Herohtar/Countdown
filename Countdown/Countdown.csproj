@@ -21,8 +21,4 @@
     <Resource Include="Images\hourglass.ico" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\ReactiveComponentModel\ReactiveComponentModel.csproj" />
-  </ItemGroup>
-
 </Project>
