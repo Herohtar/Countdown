@@ -1,13 +1,8 @@
 ﻿using ReactiveComponentModel;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reactive.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media;
 
 namespace Countdown
@@ -27,7 +22,7 @@ namespace Countdown
         private ObservableCollection<string> monitorList;
         private readonly string[] settingsProperties = new[] { "TargetDate", "TextColor", "ShadowColor", "MinumumLevel", "MaximumLevel", "CompletionText", "CountdownFontSize", "CountdownFontFamily", "SelectedMonitor" };
 
-        private Settings settings;
+        private readonly Settings settings;
 
         public DataObject()
         {
@@ -44,7 +39,7 @@ namespace Countdown
             CountdownFontSize = settings.CountdownFontSize;
             CountdownFontFamily = settings.CountdownFontFamily;
             MonitorList = new ObservableCollection<string>();
-            foreach (Monitor m in Monitor.AllMonitors)
+            foreach (var m in Monitor.AllMonitors)
             {
                 MonitorList.Add(m.Name.TrimStart(new char[] { '\\', '.' }) + (m.IsPrimary ? " (Primary)" : ""));
             }

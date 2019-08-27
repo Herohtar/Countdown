@@ -11,6 +11,8 @@ namespace Countdown
     {
         #region Dll imports
 
+#pragma warning disable IDE1006 // Naming Styles
+
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         [ResourceExposure(ResourceScope.None)]
         private static extern bool GetMonitorInfo
@@ -20,6 +22,8 @@ namespace Countdown
         [ResourceExposure(ResourceScope.None)]
         private static extern bool EnumDisplayMonitors
              (HandleRef hdc, IntPtr rcClip, MonitorEnumProc lpfnEnum, IntPtr dwData);
+
+#pragma warning restore IDE1006 // Naming Styles
 
         private delegate bool MonitorEnumProc
                      (IntPtr monitor, IntPtr hdc, IntPtr lprcMonitor, IntPtr lParam);

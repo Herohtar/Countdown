@@ -1,21 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Reactive.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Interop;
-using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Countdown
 {
@@ -106,7 +94,7 @@ namespace Countdown
 
         private void updateWindowPosition(double width)
         {
-            Monitor m = Monitor.AllMonitors.ElementAt(dataObject.SelectedMonitor);
+            var m = Monitor.AllMonitors.ElementAt(dataObject.SelectedMonitor);
             Top = m.Bounds.Top;
 
             var move = new DoubleAnimation(Left, m.Bounds.Left + ((m.Bounds.Width / 2) - (width / 2)), TimeSpan.FromMilliseconds(250))
@@ -122,17 +110,17 @@ namespace Countdown
             sb.Begin();
         }
 
-        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             updateWindowPosition(e.NewSize.Width);
         }
 
-        private void SettingsItem_Click(object sender, RoutedEventArgs e)
+        private void settingsItem_Click(object sender, RoutedEventArgs e)
         {
             onHotKeyPressed();
         }
 
-        private void ExitItem_Click(object sender, RoutedEventArgs e)
+        private void exitItem_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
         }

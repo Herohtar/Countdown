@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Countdown"
         xmlns:tb="http://www.hardcodet.net/taskbar"
         mc:Ignorable="d"
-        Title="Countdown" Height="350" Width="525" AllowsTransparency="True" WindowStyle="None" Background="#00FFFFFF" ShowInTaskbar="False" Topmost="True" SizeToContent="WidthAndHeight" SizeChanged="Window_SizeChanged" Top="0">
+        Title="Countdown" Height="350" Width="525" AllowsTransparency="True" WindowStyle="None" Background="#00FFFFFF" ShowInTaskbar="False" Topmost="True" SizeToContent="WidthAndHeight" SizeChanged="window_SizeChanged" Top="0">
     <Grid>
         <TextBlock Margin="5 0 5 5" Text="{Binding TimeLeft}" Foreground="{Binding TextColorBrush}" FontWeight="Bold" FontFamily="{Binding CountdownFontFamily}" FontSize="{Binding CountdownFontSize}">
             <TextBlock.Effect>
@@ -21,8 +21,8 @@
             </tb:TaskbarIcon.TrayToolTip>
             <tb:TaskbarIcon.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Settings" Click="SettingsItem_Click" />
-                    <MenuItem Header="Exit" Click="ExitItem_Click" />
+                    <MenuItem Header="Settings" Click="settingsItem_Click" />
+                    <MenuItem Header="Exit" Click="exitItem_Click" />
                 </ContextMenu>
             </tb:TaskbarIcon.ContextMenu>
         </tb:TaskbarIcon>

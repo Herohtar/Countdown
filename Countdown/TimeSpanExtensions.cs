@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Countdown
 {
@@ -65,10 +62,10 @@ namespace Countdown
         {
             var timeStrings = new List<string>();
 
-            int requestedMinimum = (int)minimumUnits;
-            for (int i = (int)maximumUnits; i >= requestedMinimum; i--)
+            var requestedMinimum = (int)minimumUnits;
+            for (var i = (int)maximumUnits; i >= requestedMinimum; i--)
             {
-                double value = getUnits(timeSpan, (Units)i);
+                var value = getUnits(timeSpan, (Units)i);
                 if ((value > 0) || (timeStrings.Count > 0))
                 {
                     timeStrings.Add(formatUnits(value, (Units)i));

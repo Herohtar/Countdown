@@ -14,11 +14,13 @@ namespace Countdown
         const int WS_EX_TRANSPARENT = 0x00000020;
         const int GWL_EXSTYLE = (-20);
 
+#pragma warning disable IDE1006 // Naming Styles
         [DllImport("user32.dll")]
         static extern int GetWindowLong(IntPtr hwnd, int index);
 
         [DllImport("user32.dll")]
         static extern int SetWindowLong(IntPtr hwnd, int index, int newStyle);
+#pragma warning restore IDE1006 // Naming Styles
 
         public static void SetWindowExTransparent(IntPtr hwnd)
         {
@@ -27,11 +29,9 @@ namespace Countdown
         }
 
         [DllImport("User32.dll")]
-        //internal static extern bool RegisterHotKey(IntPtr hWnd, int id, int fsModifiers, int vk);
         internal static extern bool RegisterHotKey([In] IntPtr hWnd, [In] int id, [In] uint fsModifiers, [In] uint vk);
 
         [DllImport("User32.dll")]
-        //internal static extern bool UnregisterHotKey(IntPtr hWnd, int id);
         internal static extern bool UnregisterHotKey([In] IntPtr hWnd, [In] int id);
 
         [Flags]
